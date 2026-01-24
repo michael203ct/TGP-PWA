@@ -21,12 +21,12 @@ const Layout = () => {
   ];
 
   const menuItems = [
-    { icon: IoSettings, label: 'Settings', path: '/settings' },
-    { icon: IoPerson, label: 'Profile', path: '/profile-page' },
-    { icon: IoCar, label: 'Top Gear Picks', path: '/driver-essentials' },
-    { icon: IoApps, label: 'Helpful Tools Guide', path: '/helpful-tools-guide' },
-    { icon: IoShirt, label: 'Merch', path: '/merch', suffix: 'soon' },
-    { icon: IoDownload, label: 'Install App', path: '/pwa-benefits' },
+    { icon: IoSettings, label: 'Settings', path: '/settings', testId: 'settings' },
+    { icon: IoPerson, label: 'Profile', path: '/profile-page', testId: 'profile' },
+    { icon: IoCar, label: 'Top Gear Picks', path: '/driver-essentials', testId: 'top-gear-picks' },
+    { icon: IoApps, label: 'Helpful Tools Guide', path: '/helpful-tools-guide', testId: 'helpful-tools-guide' },
+    { icon: IoShirt, label: 'Merch', path: '/merch', suffix: 'soon', testId: 'merch' },
+    { icon: IoDownload, label: 'Install App', path: '/pwa-benefits', testId: 'install-app' },
   ];
 
   return (
