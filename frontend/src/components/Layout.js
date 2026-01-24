@@ -92,7 +92,7 @@ const Layout = () => {
                   setMenuOpen(false);
                   navigate(item.path);
                 }}
-                data-testid={`menu-item-${item.label.toLowerCase().replace(' ', '-')}`}
+                data-testid={`menu-item-${item.testId}`}
               >
                 <item.icon 
                   size={20} 
