@@ -1,35 +1,96 @@
-const express = require('express');
-const path = require('path');
+const http = require('http');
 const fs = require('fs');
-const { createProxyMiddleware } = require('http-proxy-middleware');
+const path = require('path');
+const httpProxy = require('http-proxy');
 
-const app = express();
 const PORT = process.env.PORT || 3000;
 const BACKEND_URL = process.env.BACKEND_URL || 'http://localhost:8001';
 
-// Proxy API calls to backend - must be first
-app.use('/api', createProxyMiddleware({
-  target: BACKEND_URL,
-  changeOrigin: true,
-}));
+// Create a proxy server
+const proxy = httpProxy.createProxyServer({});
 
-// Serve static files from dist directory
-app.use(express.static(path.join(__dirname, 'dist')));
+const mimeTypes = {
+  '.html': 'text/html',
+  '.js': 'application/javascript',
+  '.css': 'text/css',
+  '.json': 'application/json',
+  '.png': 'image/png',
+  '.jpg': 'image/jpeg',
+  '.gif': 'image/gif',
+  '.svg': 'image/svg+xml',
+  '.ico': 'image/x-icon',
+  '.woff': 'font/woff',
+  '.woff2': 'font/woff2',
+  '.ttf': 'font/ttf',
+};
 
-// Handle all routes - serve appropriate HTML files (Express 4 style)
-app.get('*', (req, res) => {
-  // Check if the request is for a specific HTML file
-  const htmlFile = path.join(__dirname, 'dist', req.path + '.html');
+const server = http.createServer((req, res) => {
+  const url = req.url.split('?')[0];
   
-  if (fs.existsSync(htmlFile)) {
-    res.sendFile(htmlFile);
-  } else {
-    // For all other routes, serve index.html (SPA fallback)
-    res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+  // Proxy API calls to backend
+  if (url.startsWith('/api')) {
+    proxy.web(req, res, { target: BACKEND_URL }, (err) => {
+      console.error('Proxy error:', err);
+      res.writeHead(502);
+      res.end('Proxy error');
+    });
+    return;
   }
+  
+  // Serve static files from dist directory
+  let filePath = path.join(__dirname, 'dist', url);
+  
+  // Check if file exists
+  if (fs.existsSync(filePath) && fs.statSync(filePath).isFile()) {
+    const ext = path.extname(filePath);
+    const contentType = mimeTypes[ext] || 'application/octet-stream';
+    fs.readFile(filePath, (err, data) => {
+      if (err) {
+        res.writeHead(500);
+        res.end('Server error');
+      } else {
+        res.writeHead(200, { 'Content-Type': contentType });
+        res.end(data);
+      }
+    });
+    return;
+  }
+  
+  // Check for .html file
+  const htmlFile = filePath + '.html';
+  if (fs.existsSync(htmlFile)) {
+    fs.readFile(htmlFile, (err, data) => {
+      if (err) {
+        res.writeHead(500);
+        res.end('Server error');
+      } else {
+        res.writeHead(200, { 'Content-Type': 'text/html' });
+        res.end(data);
+      }
+    });
+    return;
+  }
+  
+  // Serve index.html for all other routes (SPA fallback)
+  const indexFile = path.join(__dirname, 'dist', 'index.html');
+  if (fs.existsSync(indexFile)) {
+    fs.readFile(indexFile, (err, data) => {
+      if (err) {
+        res.writeHead(500);
+        res.end('Server error');
+      } else {
+        res.writeHead(200, { 'Content-Type': 'text/html' });
+        res.end(data);
+      }
+    });
+    return;
+  }
+  
+  res.writeHead(404);
+  res.end('Not found');
 });
 
-app.listen(PORT, '0.0.0.0', () => {
+server.listen(PORT, '0.0.0.0', () => {
   console.log(`The Gig Pulse server running on port ${PORT}`);
   console.log(`Proxying API calls to ${BACKEND_URL}`);
 });
