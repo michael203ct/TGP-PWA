@@ -1561,10 +1561,12 @@ DEFAULT_GIG_APPS = [
 ]
 
 DEFAULT_HELPFUL_TOOLS = [
-    {"id": "tool-gridwise", "name": "Gridwise", "icon": "analytics", "color": "#4A90D9", "description": "Earnings tracker & analytics", "url": "https://gridwise.io/"},
-    {"id": "tool-everlance", "name": "Everlance", "icon": "speedometer", "color": "#00C7B7", "description": "Mileage & expense tracker", "url": "https://www.everlance.com/"},
-    {"id": "tool-stride", "name": "Stride", "icon": "calculator", "color": "#5271FF", "description": "Tax deduction finder", "url": "https://www.stridehealth.com/"},
-    {"id": "tool-para", "name": "Para", "icon": "swap-horizontal", "color": "#6366F1", "description": "Multi-app driver assistant", "url": "https://www.joinpara.com/"}
+    {"id": "tool-gridwise", "name": "Gridwise", "icon": "analytics", "color": "#4A90D9", "description": "Earnings tracker & analytics for gig workers. Track mileage, earnings, and get insights to maximize income.", "url": "https://gridwise.io/"},
+    {"id": "tool-everlance", "name": "Everlance", "icon": "speedometer", "color": "#00C7B7", "description": "Automatic mileage & expense tracker. IRS-compliant logs for tax deductions.", "url": "https://www.everlance.com/"},
+    {"id": "tool-worksolo", "name": "WorkSolo", "icon": "briefcase", "color": "#3B82F6", "description": "All-in-one business tool for independent contractors. Invoicing, contracts, and payments.", "url": "https://www.worksolo.com/"},
+    {"id": "tool-gigu", "name": "GigU", "icon": "school", "color": "#F59E0B", "description": "Educational platform for gig workers. Learn strategies to maximize your earnings.", "url": "https://www.gigu.app/"},
+    {"id": "tool-mystro", "name": "Mystro", "icon": "flash", "color": "#EF4444", "description": "Auto-accept rides across multiple platforms. Never miss a good trip again.", "url": "https://www.mystrodriver.com/"},
+    {"id": "tool-maxymo", "name": "Maxymo", "icon": "car", "color": "#10B981", "description": "Smart automation for rideshare drivers. Filter rides and optimize your driving strategy.", "url": "https://www.maxymo.co/"}
 ]
 
 DEFAULT_FEATURED_GEAR = [
