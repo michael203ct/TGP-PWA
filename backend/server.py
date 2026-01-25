@@ -1184,6 +1184,11 @@ async def get_video_feed(max_per_channel: int = 3, force_refresh: bool = False):
         # Sort all videos by publish date (newest first)
         all_videos.sort(key=lambda x: x.get("published_at", ""), reverse=True)
         
+        # Filter out hidden videos
+        hidden_videos = await db.hidden_videos.find({}, {"_id": 0, "video_id": 1}).to_list(1000)
+        hidden_ids = set(h["video_id"] for h in hidden_videos)
+        all_videos = [v for v in all_videos if v.get("video_id") not in hidden_ids]
+        
         # Cache the feed
         await db.youtube_feed_cache.update_one(
             {"feed_type": "featured"},
