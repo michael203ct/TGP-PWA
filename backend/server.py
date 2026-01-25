@@ -918,6 +918,42 @@ async def search_channels(query: str, max_results: int = 5):
 
 @youtube_router.get("/keywords")
 async def get_gig_keywords():
+
+@youtube_router.post("/hide/{video_id}")
+async def hide_video(video_id: str):
+    """Hide a video from the feed (admin function). Stores video_id in hidden_videos collection."""
+    try:
+        await db.hidden_videos.update_one(
+            {"video_id": video_id},
+            {"$set": {"video_id": video_id, "hidden_at": datetime.now(timezone.utc)}},
+            upsert=True
+        )
+        return {"success": True, "message": f"Video {video_id} hidden"}
+    except Exception as e:
+        logger.error(f"Error hiding video: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@youtube_router.delete("/hide/{video_id}")
+async def unhide_video(video_id: str):
+    """Unhide a video (admin function)."""
+    try:
+        result = await db.hidden_videos.delete_one({"video_id": video_id})
+        if result.deleted_count == 0:
+            return {"success": False, "message": "Video was not hidden"}
+        return {"success": True, "message": f"Video {video_id} unhidden"}
+    except Exception as e:
+        logger.error(f"Error unhiding video: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@youtube_router.get("/hidden")
+async def get_hidden_videos():
+    """Get list of all hidden video IDs (admin function)."""
+    try:
+        hidden = await db.hidden_videos.find({}, {"_id": 0, "video_id": 1}).to_list(1000)
+        return {"success": True, "data": [h["video_id"] for h in hidden], "count": len(hidden)}
+    except Exception as e:
+        logger.error(f"Error fetching hidden videos: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
     """
     Return the list of keywords used for filtering gig-related content.
     Useful for understanding what terms trigger the filter.
