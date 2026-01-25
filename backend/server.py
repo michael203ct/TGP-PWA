@@ -1852,6 +1852,7 @@ async def seed_static_content():
         ("static_gig_apps", DEFAULT_GIG_APPS, "id"),
         ("static_helpful_tools", DEFAULT_HELPFUL_TOOLS, "id"),
         ("static_featured_gear", DEFAULT_FEATURED_GEAR, "id"),
+        ("static_community_favorites", DEFAULT_COMMUNITY_FAVORITES, "id"),
     ]
     
     for collection_name, default_data, id_field in collections_to_seed:
