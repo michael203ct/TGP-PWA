@@ -1561,10 +1561,12 @@ DEFAULT_GIG_APPS = [
 ]
 
 DEFAULT_HELPFUL_TOOLS = [
-    {"id": "tool-gridwise", "name": "Gridwise", "icon": "analytics", "color": "#4A90D9", "description": "Earnings tracker & analytics", "url": "https://gridwise.io/"},
-    {"id": "tool-everlance", "name": "Everlance", "icon": "speedometer", "color": "#00C7B7", "description": "Mileage & expense tracker", "url": "https://www.everlance.com/"},
-    {"id": "tool-stride", "name": "Stride", "icon": "calculator", "color": "#5271FF", "description": "Tax deduction finder", "url": "https://www.stridehealth.com/"},
-    {"id": "tool-para", "name": "Para", "icon": "swap-horizontal", "color": "#6366F1", "description": "Multi-app driver assistant", "url": "https://www.joinpara.com/"}
+    {"id": "tool-gridwise", "name": "Gridwise", "icon": "analytics", "color": "#4A90D9", "description": "Earnings tracker & analytics for gig workers. Track mileage, earnings, and get insights to maximize income.", "url": "https://gridwise.io/", "features": ["Track earnings across all gig platforms", "Real-time demand heatmaps", "Mileage tracking with IRS-compliant reports", "Airport & event alerts", "Compare weekly earnings trends"]},
+    {"id": "tool-everlance", "name": "Everlance", "icon": "speedometer", "color": "#00C7B7", "description": "Automatic mileage & expense tracker. IRS-compliant logs for tax deductions.", "url": "https://link.everlance.com/t7IY1nJY1Zb", "features": ["Automatic mileage tracking", "IRS-compliant expense reports", "Tax deduction finder", "Premium: Unlimited mileage tracking", "Photo receipt capture"]},
+    {"id": "tool-worksolo", "name": "WorkSolo", "icon": "briefcase", "color": "#6366F1", "description": "All-in-one business tool for independent contractors. Invoicing, contracts, and payments.", "url": "https://worksolo.onelink.me/7Viq/7tg2zv88", "features": ["AI-powered tax estimation", "Quarterly tax reminders", "Deduction optimization", "Real-time tax liability tracking", "Works with all gig platforms"]},
+    {"id": "tool-gigu", "name": "GigU", "icon": "school", "color": "#F59E0B", "description": "Educational platform for gig workers. Learn strategies to maximize your earnings.", "url": "https://gigu.me/JGCDA", "features": ["Free online courses for gig drivers", "Learn best practices & tips", "Certification programs available", "Community forum access", "New driver orientation guides"]},
+    {"id": "tool-mystro", "name": "Mystro", "icon": "flash", "color": "#EF4444", "description": "Auto-accept rides across multiple platforms. Never miss a good trip again.", "url": "https://l.myst.ro/N0Q9/yew647h9", "features": ["Auto-accept rides from multiple apps", "Set minimum fare thresholds", "Hands-free driving mode", "Smart surge detection", "Battery & data optimized"]},
+    {"id": "tool-maxymo", "name": "Maxymo", "icon": "car", "color": "#10B981", "description": "Smart automation for rideshare drivers. Filter rides and optimize your driving strategy.", "url": "https://maxymoapp.com/?code=Mic2676", "features": ["Multi-app management dashboard", "Accept rides from all platforms", "Earnings optimization tips", "Driver status across apps", "Reduce app switching time"]}
 ]
 
 DEFAULT_FEATURED_GEAR = [
