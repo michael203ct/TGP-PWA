@@ -1488,63 +1488,15 @@ static_content_router = APIRouter(prefix="/api/static-content", tags=["static-co
 
 # Default data - only used for initial seeding
 DEFAULT_WEEKLY_SHOWS = [
-    {
-        "id": "ws-1",
-        "name": "Drivers Coast 2 Coast X Space",
-        "creator": "Drivers Coast 2 Coast",
-        "schedule": "Mondays 7pm EST",
-        "duration": "~2 hours",
-        "platform": "X Spaces",
-        "url": "https://twitter.com/DriversCoast2C",
-        "thumbnail": "https://static.prod-images.emergentagent.com/jobs/6aff9965-a15e-4038-b712-ce2b2890b588/images/577a8ef80304cddec1bb7ee5ecbaa37c86043a60a3f0314ffe28694664b2fe27.png"
-    },
-    {
-        "id": "ws-2",
-        "name": "Show Me The Money Club",
-        "creator": "Show Me The Money Club",
-        "schedule": "Tuesdays 8pm EST",
-        "duration": "~1.5 hours",
-        "platform": "X Spaces",
-        "url": "https://twitter.com/ShowMeMoneyClub",
-        "thumbnail": "https://static.prod-images.emergentagent.com/jobs/6aff9965-a15e-4038-b712-ce2b2890b588/images/9ce7df651da42c9e7ece5edbf578a848dc261f0f933db3f7b31ac418a264178a.png"
-    },
-    {
-        "id": "ws-3",
-        "name": "Off The Clock",
-        "creator": "Off The Clock",
-        "schedule": "Wednesdays 9pm EST",
-        "duration": "~1 hour",
-        "platform": "X Spaces",
-        "url": "https://twitter.com/OffTheClock",
-        "thumbnail": "https://static.prod-images.emergentagent.com/jobs/6aff9965-a15e-4038-b712-ce2b2890b588/images/9a0c9e45165836af5ef74ce2bd3a2c6b7102efc69a36f95e3d23153fd00a080b.png"
-    }
+    {"id": "ws-1", "name": "Drivers Coast 2 Coast X Space", "creator": "@DriversC2C", "schedule": "Mondays 7pm EST", "duration": "~2 hours", "platform": "X Spaces", "url": "https://x.com/DriversC2C", "thumbnail": "https://customer-assets.emergentagent.com/job_rideheart/artifacts/xgqfe4ue_DriversC2C.jpg"},
+    {"id": "ws-2", "name": "Show Me The Money Club Podcast", "creator": "The Rideshare Guy", "schedule": "Tuesdays 6pm EST", "duration": "~1.5 hours", "platform": "YouTube", "url": "https://youtube.com/playlist?list=PLicaiyRJvVbwrofXH-sOxoFuCvXrybwRl&si=76nHGGF9blHDpaIU", "thumbnail": "https://customer-assets.emergentagent.com/job_rideheart/artifacts/9623hrj4_Show%20Me%20The%20Money%20Club.jpg"},
+    {"id": "ws-3", "name": "Off The Clock Podcast", "creator": "Vinny Kuzz", "schedule": "Wednesdays 9pm EST", "duration": "~2 hours", "platform": "YouTube", "url": "https://youtube.com/playlist?list=PLApTPUXT30jdwrG2QlHnX5UHj8m7WHeDR&si=74OQFTBd8TCos9_M", "thumbnail": "https://customer-assets.emergentagent.com/job_rideheart/artifacts/6ol4w7sj_Off%20The%20Clock.jpg"}
 ]
 
 DEFAULT_FEATURED_CHANNELS = [
-    {
-        "id": "fc-ridesharerodeo",
-        "name": "Rideshare Rodeo",
-        "handle": "@ridesharerodeo",
-        "tag": "Gig tips & tricks",
-        "thumbnail": "https://yt3.googleusercontent.com/ytc/AIdro_nF7zzgJkPCh6H0dU7_NwB7lSzxXcvO7wnr9wd5cQ=s176-c-k-c0x00ffffff-no-rj",
-        "channelUrl": "https://www.youtube.com/@ridesharerodeo"
-    },
-    {
-        "id": "fc-rideshareguy",
-        "name": "The Rideshare Guy",
-        "handle": "@TheRideshareGuy",
-        "tag": "Industry news & reviews",
-        "thumbnail": "https://yt3.googleusercontent.com/ytc/AIdro_kzMjpyZXHbVvA1Gp2ykLTZlr-3B7kGH_NMXs7z=s176-c-k-c0x00ffffff-no-rj",
-        "channelUrl": "https://www.youtube.com/@TheRideshareGuy"
-    },
-    {
-        "id": "fc-rideshareprof",
-        "name": "Rideshare Professor",
-        "handle": "@RideshareProf",
-        "tag": "Earnings strategies",
-        "thumbnail": "https://yt3.googleusercontent.com/ytc/AIdro_mJUq1H8jJX3y0cFxUOEi9Tn8ISkqTnQEKqLm_l=s176-c-k-c0x00ffffff-no-rj",
-        "channelUrl": "https://www.youtube.com/@RideshareProf"
-    }
+    {"id": "fc-ridesharerodeo", "name": "Rideshare Rodeo", "handle": "@RideshareRodeo", "tag": "Gig tips & tricks", "thumbnail": "https://customer-assets.emergentagent.com/job_rideheart/artifacts/o524ke00_Rideshare%20Rodeo.jpg", "channelUrl": "https://www.youtube.com/@RideshareRodeo"},
+    {"id": "fc-rideshareguy", "name": "The Rideshare Guy", "handle": "@Therideshareguy", "tag": "Industry news & reviews", "thumbnail": "https://customer-assets.emergentagent.com/job_rideheart/artifacts/20dx6o5m_RSG.jpg", "channelUrl": "https://www.youtube.com/@Therideshareguy"},
+    {"id": "fc-rideshareprof", "name": "Rideshare Professor", "handle": "@AskTorsten", "tag": "Earnings strategies", "thumbnail": "https://customer-assets.emergentagent.com/job_rideheart/artifacts/0r3f9g4y_Rideshare%20Professor.jpg", "channelUrl": "https://www.youtube.com/@AskTorsten"}
 ]
 
 DEFAULT_GIG_APPS = [
