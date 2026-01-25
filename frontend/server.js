@@ -7,25 +7,26 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const BACKEND_URL = process.env.BACKEND_URL || 'http://localhost:8001';
 
-// Proxy API calls to backend
+// Proxy API calls to backend - must be first
 app.use('/api', createProxyMiddleware({
   target: BACKEND_URL,
   changeOrigin: true,
+  pathRewrite: {
+    '^/api': '/api'  // Keep /api prefix
+  },
+  logLevel: 'debug'
 }));
 
 // Serve static files from dist directory
 app.use(express.static(path.join(__dirname, 'dist')));
 
 // Handle all routes - serve appropriate HTML files
-app.use((req, res, next) => {
+app.use((req, res) => {
   // Check if the request is for a specific HTML file
   const htmlFile = path.join(__dirname, 'dist', req.path + '.html');
   
   if (fs.existsSync(htmlFile)) {
     res.sendFile(htmlFile);
-  } else if (req.path.includes('.')) {
-    // If it's a file request (has extension), let it 404
-    next();
   } else {
     // For all other routes, serve index.html (SPA fallback)
     res.sendFile(path.join(__dirname, 'dist', 'index.html'));
