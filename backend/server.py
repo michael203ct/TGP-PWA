@@ -1541,16 +1541,106 @@ DEFAULT_FEATURED_CHANNELS = [
 ]
 
 DEFAULT_GIG_APPS = [
-    {"id": "app-uber", "name": "Uber", "icon": "car", "color": "#000000", "category": "rideshare", "url": "https://drivers.uber.com/i/j4uz56c"},
-    {"id": "app-ubereats", "name": "Uber Eats", "icon": "fast-food", "color": "#06C167", "category": "delivery", "url": "https://drivers.uber.com/i/j4uz56c"},
-    {"id": "app-lyft", "name": "Lyft", "icon": "car-sport", "color": "#FF00BF", "category": "rideshare", "url": "https://www.lyft.com/drive-with-lyft?utm_medium=d2da_iacc"},
-    {"id": "app-doordash", "name": "DoorDash", "icon": "bicycle", "color": "#FF3008", "category": "delivery", "url": "https://www.doordash.com/dasher/signup/"},
-    {"id": "app-grubhub", "name": "Grubhub", "icon": "restaurant", "color": "#F63440", "category": "delivery", "url": "https://driver.grubhub.com/"},
-    {"id": "app-instacart", "name": "Instacart", "icon": "cart", "color": "#43B02A", "category": "shopping", "url": "http://inst.cr/t/ejlhZllTdEgx"},
-    {"id": "app-spark", "name": "Spark", "icon": "flash", "color": "#FFC220", "category": "delivery", "url": "https://drive4spark.walmart.com/"},
-    {"id": "app-amazonflex", "name": "Amazon Flex", "icon": "cube", "color": "#FF9900", "category": "delivery", "url": "https://flex.amazon.com/"},
-    {"id": "app-shipt", "name": "Shipt", "icon": "bag-handle", "color": "#00A859", "category": "shopping", "url": "https://www.shipt.com/shopper/be-a-shopper"},
-    {"id": "app-roadie", "name": "Roadie", "icon": "navigate", "color": "#1B8F5D", "category": "delivery", "url": "https://www.roadie.com/drivers"}
+    {
+        "id": "app-uber",
+        "name": "Uber",
+        "icon": "car",
+        "color": "#000000",
+        "category": "rideshare",
+        "url": "https://drivers.uber.com/i/j4uz56c",
+        "description": "The world's largest rideshare platform. Drive passengers to their destinations and earn on your own schedule.",
+        "features": ["Flexible hours - drive when you want", "Weekly payouts + instant cash out", "Quests & surge pricing bonuses", "In-app navigation & safety features", "24/7 driver support"]
+    },
+    {
+        "id": "app-ubereats",
+        "name": "Uber Eats",
+        "icon": "fast-food",
+        "color": "#06C167",
+        "category": "delivery",
+        "url": "https://drivers.uber.com/i/j4uz56c",
+        "description": "Deliver food from local restaurants to hungry customers. No passengers, just packages.",
+        "features": ["Deliver by car, bike, or scooter", "See earnings before accepting", "Stack multiple deliveries", "Keep 100% of tips", "Flexible scheduling"]
+    },
+    {
+        "id": "app-lyft",
+        "name": "Lyft",
+        "icon": "car-sport",
+        "color": "#FF00BF",
+        "category": "rideshare",
+        "url": "https://www.lyft.com/drive-with-lyft?utm_medium=d2da_iacc",
+        "description": "A friendlier rideshare experience. Drive passengers around your city and earn competitive rates.",
+        "features": ["Driver-friendly community", "Earnings guarantees for new drivers", "Streak bonuses & ride challenges", "Express Pay - cash out instantly", "Rental & vehicle programs available"]
+    },
+    {
+        "id": "app-doordash",
+        "name": "DoorDash",
+        "icon": "bicycle",
+        "color": "#FF3008",
+        "category": "delivery",
+        "url": "https://www.doordash.com/dasher/signup/",
+        "description": "America's #1 food delivery app. Dash when you want and earn what you need.",
+        "features": ["See pay before you accept", "Peak Pay during busy times", "Challenges & completion bonuses", "Fast Pay - instant earnings access", "Deliver food, groceries, or packages"]
+    },
+    {
+        "id": "app-grubhub",
+        "name": "Grubhub",
+        "icon": "restaurant",
+        "color": "#F63440",
+        "category": "delivery",
+        "url": "https://driver.grubhub.com/",
+        "description": "Deliver from your favorite local restaurants. Flexible scheduling with competitive pay.",
+        "features": ["Schedule blocks in advance", "Keep 100% of tips", "Contribution pay guarantee", "Catering deliveries for bigger orders", "Driver specialist support"]
+    },
+    {
+        "id": "app-instacart",
+        "name": "Instacart",
+        "icon": "cart",
+        "color": "#43B02A",
+        "category": "shopping",
+        "url": "http://inst.cr/t/ejlhZllTdEgx",
+        "description": "Shop and deliver groceries from stores like Costco, Kroger, and more. Great tips from appreciative customers.",
+        "features": ["Shop at stores you know", "Batch multiple orders together", "See earnings + tip upfront", "Instant cashout available", "In-store & delivery options"]
+    },
+    {
+        "id": "app-spark",
+        "name": "Spark",
+        "icon": "flash",
+        "color": "#FFC220",
+        "category": "delivery",
+        "url": "https://drive4spark.walmart.com/",
+        "description": "Walmart's delivery platform. Deliver groceries, general merchandise, and express orders.",
+        "features": ["Consistent Walmart order volume", "Incentive trips & bonuses", "Shop & deliver or curbside pickup", "See trip details before accepting", "First access to high-value orders"]
+    },
+    {
+        "id": "app-amazonflex",
+        "name": "Amazon Flex",
+        "icon": "cube",
+        "color": "#FF9900",
+        "category": "delivery",
+        "url": "https://flex.amazon.com/",
+        "description": "Deliver packages for Amazon. Grab delivery blocks and earn $18-25/hour.",
+        "features": ["Predictable block-based scheduling", "Deliver from local warehouses", "Same-day & grocery deliveries", "Earn $18-$25+ per hour", "Use your own vehicle"]
+    },
+    {
+        "id": "app-shipt",
+        "name": "Shipt",
+        "icon": "bag-handle",
+        "color": "#00A859",
+        "category": "shopping",
+        "url": "https://www.shipt.com/shopper/be-a-shopper",
+        "description": "Personal shopping and delivery from Target, CVS, and more. Build relationships with regular customers.",
+        "features": ["Shop from Target & other stores", "Build a base of member matches", "Preferred shopper program", "Keep 100% of tips", "Flexible metro scheduling"]
+    },
+    {
+        "id": "app-roadie",
+        "name": "Roadie",
+        "icon": "navigate",
+        "color": "#1B8F5D",
+        "category": "delivery",
+        "url": "https://www.roadie.com/drivers",
+        "description": "Deliver big and bulky items that don't fit in regular delivery vehicles. Great for SUV and truck owners.",
+        "features": ["Big item deliveries = bigger pay", "Long-distance gigs available", "Same-day local deliveries", "Partner with major retailers", "Ideal for larger vehicles"]
+    }
 ]
 
 DEFAULT_HELPFUL_TOOLS = [
