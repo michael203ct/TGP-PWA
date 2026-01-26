@@ -1275,6 +1275,19 @@ def clean_html(text: str) -> str:
     clean = ' '.join(clean.split())
     return clean[:500]  # Limit length
 
+def resolve_google_news_url(url: str) -> str:
+    """
+    Attempt to resolve Google News redirect URLs to their actual destination.
+    Google News RSS URLs have encoded article URLs in the path.
+    """
+    if not url or 'news.google.com/rss/articles/' not in url:
+        return url
+    
+    # Google News URLs contain base64-encoded article URLs
+    # For now, return the URL as-is but mark it needs resolution
+    # The frontend will handle opening these URLs
+    return url
+
 def matches_news_keywords(title: str, summary: str) -> bool:
     """Check if article matches gig-related keywords"""
     text = (title + " " + summary).lower()
