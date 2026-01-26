@@ -1791,6 +1791,32 @@ async def update_community_favorite_categories(item_id: str, categories: list[st
     item = await db.static_community_favorites.find_one({"id": item_id}, {"_id": 0})
     return {"success": True, "categories": item.get("categories", [])}
 
+# Price update model
+class PriceUpdate(BaseModel):
+    price: str
+
+@static_content_router.put("/featured-gear/{item_id}/price")
+async def update_featured_gear_price(item_id: str, price_update: PriceUpdate):
+    """Update price for a featured gear item (admin function)"""
+    result = await db.static_featured_gear.update_one(
+        {"id": item_id},
+        {"$set": {"price": price_update.price}}
+    )
+    if result.matched_count == 0:
+        raise HTTPException(status_code=404, detail="Item not found")
+    return {"success": True, "message": f"Price updated to {price_update.price}"}
+
+@static_content_router.put("/community-favorites/{item_id}/price")
+async def update_community_favorites_price(item_id: str, price_update: PriceUpdate):
+    """Update price for a community favorites item (admin function)"""
+    result = await db.static_community_favorites.update_one(
+        {"id": item_id},
+        {"$set": {"price": price_update.price}}
+    )
+    if result.matched_count == 0:
+        raise HTTPException(status_code=404, detail="Item not found")
+    return {"success": True, "message": f"Price updated to {price_update.price}"}
+
 app.include_router(static_content_router)
 
 @app.on_event("startup")
