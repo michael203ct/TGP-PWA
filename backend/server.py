@@ -1541,15 +1541,15 @@ DEFAULT_FEATURED_CHANNELS = [
 ]
 
 DEFAULT_GIG_APPS = [
-    {"id": "app-uber", "name": "Uber", "icon": "car", "color": "#000000", "category": "rideshare", "url": "https://www.uber.com/us/en/drive/"},
-    {"id": "app-ubereats", "name": "Uber Eats", "icon": "fast-food", "color": "#06C167", "category": "delivery", "url": "https://www.ubereats.com/deliver"},
-    {"id": "app-lyft", "name": "Lyft", "icon": "car-sport", "color": "#FF00BF", "category": "rideshare", "url": "https://www.lyft.com/driver"},
+    {"id": "app-uber", "name": "Uber", "icon": "car", "color": "#000000", "category": "rideshare", "url": "https://drivers.uber.com/i/j4uz56c"},
+    {"id": "app-ubereats", "name": "Uber Eats", "icon": "fast-food", "color": "#06C167", "category": "delivery", "url": "https://drivers.uber.com/i/j4uz56c"},
+    {"id": "app-lyft", "name": "Lyft", "icon": "car-sport", "color": "#FF00BF", "category": "rideshare", "url": "https://www.lyft.com/drive-with-lyft?utm_medium=d2da_iacc"},
     {"id": "app-doordash", "name": "DoorDash", "icon": "bicycle", "color": "#FF3008", "category": "delivery", "url": "https://www.doordash.com/dasher/signup/"},
     {"id": "app-grubhub", "name": "Grubhub", "icon": "restaurant", "color": "#F63440", "category": "delivery", "url": "https://driver.grubhub.com/"},
-    {"id": "app-instacart", "name": "Instacart", "icon": "cart", "color": "#43B02A", "category": "shopping", "url": "https://shoppers.instacart.com/"},
+    {"id": "app-instacart", "name": "Instacart", "icon": "cart", "color": "#43B02A", "category": "shopping", "url": "http://inst.cr/t/ejlhZllTdEgx"},
     {"id": "app-spark", "name": "Spark", "icon": "flash", "color": "#FFC220", "category": "delivery", "url": "https://drive4spark.walmart.com/"},
     {"id": "app-amazonflex", "name": "Amazon Flex", "icon": "cube", "color": "#FF9900", "category": "delivery", "url": "https://flex.amazon.com/"},
-    {"id": "app-shipt", "name": "Shipt", "icon": "bag-handle", "color": "#00A859", "category": "shopping", "url": "https://www.shipt.com/be-a-shopper/"},
+    {"id": "app-shipt", "name": "Shipt", "icon": "bag-handle", "color": "#00A859", "category": "shopping", "url": "https://www.shipt.com/shopper/be-a-shopper"},
     {"id": "app-roadie", "name": "Roadie", "icon": "navigate", "color": "#1B8F5D", "category": "delivery", "url": "https://www.roadie.com/drivers"}
 ]
 
