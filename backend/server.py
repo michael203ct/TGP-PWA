@@ -963,15 +963,6 @@ async def get_hidden_videos():
     except Exception as e:
         logger.error(f"Error fetching hidden videos: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
-    """
-    Return the list of keywords used for filtering gig-related content.
-    Useful for understanding what terms trigger the filter.
-    """
-    return {
-        "keywords": GIG_KEYWORDS,
-        "count": len(GIG_KEYWORDS),
-        "usage": "Videos are filtered if title or description contains any of these keywords"
-    }
 
 # Featured Gig Channels - configured channel handles
 FEATURED_CHANNELS = [
