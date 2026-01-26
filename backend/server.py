@@ -918,6 +918,15 @@ async def search_channels(query: str, max_results: int = 5):
 
 @youtube_router.get("/keywords")
 async def get_gig_keywords():
+    """
+    Return the list of keywords used for filtering gig-related content.
+    Useful for understanding what terms trigger the filter.
+    """
+    return {
+        "keywords": GIG_KEYWORDS,
+        "count": len(GIG_KEYWORDS),
+        "usage": "Videos are filtered if title or description contains any of these keywords"
+    }
 
 @youtube_router.post("/hide/{video_id}")
 async def hide_video(video_id: str):
