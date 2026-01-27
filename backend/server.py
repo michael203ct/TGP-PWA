@@ -1558,7 +1558,7 @@ DEFAULT_GIG_APPS = [
         "id": "app-uber",
         "name": "Uber",
         "icon": "car",
-        "color": "#000000",
+        "color": "#6B7280",
         "category": "rideshare",
         "url": "https://drivers.uber.com/i/j4uz56c",
         "description": "The world's largest rideshare platform. Drive passengers to their destinations and earn on your own schedule.",
