@@ -88,4 +88,14 @@ function addMetaAndFontFace(dir) {
 
 addMetaAndFontFace(distDir);
 
+// Ensure logo.png exists (copy from assets if needed)
+const logoSource = path.join(distDir, 'assets/assets');
+if (fs.existsSync(logoSource)) {
+    const logoFiles = fs.readdirSync(logoSource).filter(f => f.startsWith('logo-full'));
+    if (logoFiles.length > 0 && !fs.existsSync(path.join(distDir, 'logo.png'))) {
+        fs.copyFileSync(path.join(logoSource, logoFiles[0]), path.join(distDir, 'logo.png'));
+        console.log('Copied logo.png');
+    }
+}
+
 console.log('Build setup complete!');
