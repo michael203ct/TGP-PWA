@@ -9,7 +9,7 @@
   },
   "scripts": {
     "start": "node server.js",
-    "build": "echo 'Static build - dist folder already contains built assets'"
+    "build": "node build-setup.js"
   },
   "engines": {
     "node": ">=18.0.0"
