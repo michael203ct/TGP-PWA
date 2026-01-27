@@ -1738,15 +1738,14 @@ async def seed_static_content():
     
     for collection_name, default_data, id_field in collections_to_seed:
         collection = db[collection_name]
-        count = await collection.count_documents({})
-        if count == 0:
-            logger.info(f"Seeding {collection_name} with {len(default_data)} items")
-            for item in default_data:
-                await collection.update_one(
-                    {id_field: item[id_field]},
-                    {"$set": item},
-                    upsert=True
-                )
+        # Always upsert to ensure latest data (colors, descriptions, etc.) are applied
+        logger.info(f"Syncing {collection_name} with {len(default_data)} items")
+        for item in default_data:
+            await collection.update_one(
+                {id_field: item[id_field]},
+                {"$set": item},
+                upsert=True
+            )
 
 @static_content_router.get("/weekly-shows")
 async def get_weekly_shows():
