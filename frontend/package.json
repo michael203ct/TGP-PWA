@@ -8,7 +8,8 @@
     "http-proxy": "^1.18.1"
   },
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "build": "echo 'Static build - dist folder already contains built assets'"
   },
   "engines": {
     "node": ">=18.0.0"
