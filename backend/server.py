@@ -1127,11 +1127,11 @@ async def get_video_feed(max_per_channel: int = 3, force_refresh: bool = False):
     Returns videos sorted by publish date (newest first).
     """
     try:
-        # Check cache for the full feed (15 minute cache)
+        # Check cache for the full feed (30 minute cache for faster loads)
         if not force_refresh:
             cached_feed = await db.youtube_feed_cache.find_one({
                 "feed_type": "featured",
-                "cached_at": {"$gt": datetime.now(timezone.utc) - timedelta(minutes=15)}
+                "cached_at": {"$gt": datetime.now(timezone.utc) - timedelta(minutes=30)}
             })
             
             if cached_feed:
@@ -1146,9 +1146,11 @@ async def get_video_feed(max_per_channel: int = 3, force_refresh: bool = False):
         all_videos = []
         resolved_channels = []
         
-        for channel_info in FEATURED_CHANNELS:
+        # Fetch videos from channels concurrently for faster loading
+        import asyncio
+        
+        async def fetch_channel_videos(channel_info):
             try:
-                # Resolve handle to channel ID
                 handle = channel_info["handle"]
                 resolve_result = await resolve_channel_handle(handle)
                 
@@ -1156,30 +1158,39 @@ async def get_video_feed(max_per_channel: int = 3, force_refresh: bool = False):
                     channel_data = resolve_result["data"]
                     channel_id = channel_data["channel_id"]
                     
-                    resolved_channels.append({
+                    channel_resolved = {
                         "channel_id": channel_id,
                         "name": channel_data["title"],
                         "thumbnail": channel_data["thumbnail_high"] or channel_data["thumbnail"],
                         "handle": handle
-                    })
+                    }
                     
-                    # Get latest videos from this channel
                     videos_result = await get_latest_videos(
                         channel_id=channel_id,
                         max_results=max_per_channel,
-                        filter_gig=False,  # Don't filter since these are dedicated gig channels
+                        filter_gig=False,
                         force_refresh=force_refresh
                     )
                     
+                    videos = []
                     if videos_result["success"]:
                         for video in videos_result["data"]:
                             video["channel_thumbnail"] = channel_data["thumbnail_high"] or channel_data["thumbnail"]
                             video["channel_handle"] = handle
-                            all_videos.append(video)
-                            
+                            videos.append(video)
+                    
+                    return channel_resolved, videos
             except Exception as e:
                 logger.warning(f"Failed to fetch videos for {channel_info['handle']}: {str(e)}")
-                continue
+            return None, []
+        
+        # Run all channel fetches concurrently
+        results = await asyncio.gather(*[fetch_channel_videos(ch) for ch in FEATURED_CHANNELS])
+        
+        for channel_resolved, videos in results:
+            if channel_resolved:
+                resolved_channels.append(channel_resolved)
+            all_videos.extend(videos)
         
         # Sort all videos by publish date (newest first)
         all_videos.sort(key=lambda x: x.get("published_at", ""), reverse=True)
