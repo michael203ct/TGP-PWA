@@ -44,12 +44,20 @@ const server = http.createServer((req, res) => {
   if (fs.existsSync(filePath) && fs.statSync(filePath).isFile()) {
     const ext = path.extname(filePath);
     const contentType = mimeTypes[ext] || 'application/octet-stream';
+    
+    // Add CORS headers for font files
+    const headers = { 'Content-Type': contentType };
+    if (['.ttf', '.woff', '.woff2', '.eot', '.otf'].includes(ext)) {
+      headers['Access-Control-Allow-Origin'] = '*';
+      headers['Cache-Control'] = 'public, max-age=31536000';
+    }
+    
     fs.readFile(filePath, (err, data) => {
       if (err) {
         res.writeHead(500);
         res.end('Server error');
       } else {
-        res.writeHead(200, { 'Content-Type': contentType });
+        res.writeHead(200, headers);
         res.end(data);
       }
     });
