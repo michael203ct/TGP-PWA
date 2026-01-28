@@ -158,7 +158,7 @@ if (fs.existsSync(logoSource)) {
     }
 }
 
-// Create PWA manifest
+// Create PWA manifest with proper icon
 const manifestPath = path.join(distDir, 'manifest.json');
 const manifest = {
     "name": "The Gig Pulse",
@@ -171,16 +171,16 @@ const manifest = {
     "orientation": "portrait",
     "icons": [
         {
-            "src": "/logo.png",
-            "sizes": "192x192",
-            "type": "image/png",
-            "purpose": "any maskable"
-        },
-        {
-            "src": "/logo.png",
+            "src": "/icon.png",
             "sizes": "512x512",
             "type": "image/png",
-            "purpose": "any maskable"
+            "purpose": "any"
+        },
+        {
+            "src": "/icon.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "maskable"
         }
     ]
 };
