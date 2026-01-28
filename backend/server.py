@@ -1749,8 +1749,20 @@ async def seed_static_content():
 
 @static_content_router.get("/weekly-shows")
 async def get_weekly_shows():
-    """Get weekly shows from database"""
+    """Get weekly shows from database, ordered by day of week"""
     items = await db.static_weekly_shows.find({}, {"_id": 0}).to_list(100)
+    
+    # Sort by day of week order
+    day_order = {'Monday': 1, 'Tuesday': 2, 'Wednesday': 3, 'Thursday': 4, 'Friday': 5, 'Saturday': 6, 'Sunday': 7}
+    
+    def get_day_order(show):
+        schedule = show.get('schedule', '')
+        for day, order in day_order.items():
+            if day in schedule:
+                return order
+        return 99
+    
+    items.sort(key=get_day_order)
     return {"success": True, "data": items, "count": len(items)}
 
 @static_content_router.get("/featured-channels")
