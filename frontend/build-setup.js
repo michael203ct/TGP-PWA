@@ -137,20 +137,24 @@ function addMetaAndFontFace(dir) {
 
 addMetaAndFontFace(distDir);
 
-// Ensure logo.png exists (copy from assets if needed)
-const logoDestPath = path.join(distDir, 'logo.png');
-if (!fs.existsSync(logoDestPath)) {
-    const logoSource = path.join(distDir, 'assets/assets');
-    if (fs.existsSync(logoSource)) {
-        try {
-            const logoFiles = fs.readdirSync(logoSource).filter(f => f.startsWith('logo-full'));
-            if (logoFiles.length > 0) {
-                fs.copyFileSync(path.join(logoSource, logoFiles[0]), logoDestPath);
-                console.log('Copied logo.png');
-            }
-        } catch (err) {
-            console.log('Logo copy skipped:', err.message);
+// Always copy logo.png and og-image.png from the header logo
+const logoSource = path.join(distDir, 'assets/assets');
+if (fs.existsSync(logoSource)) {
+    try {
+        const logoFiles = fs.readdirSync(logoSource).filter(f => f.startsWith('logo-full'));
+        if (logoFiles.length > 0) {
+            const sourceLogoPath = path.join(logoSource, logoFiles[0]);
+            
+            // Copy to logo.png
+            fs.copyFileSync(sourceLogoPath, path.join(distDir, 'logo.png'));
+            console.log('Copied logo.png');
+            
+            // Copy to og-image.png (use same logo for now)
+            fs.copyFileSync(sourceLogoPath, path.join(distDir, 'og-image.png'));
+            console.log('Copied og-image.png');
         }
+    } catch (err) {
+        console.log('Logo copy error:', err.message);
     }
 }
 
