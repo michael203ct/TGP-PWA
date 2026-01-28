@@ -142,4 +142,33 @@ if (!fs.existsSync(logoDestPath)) {
     }
 }
 
+// Create PWA manifest
+const manifestPath = path.join(distDir, 'manifest.json');
+const manifest = {
+    "name": "The Gig Pulse",
+    "short_name": "Gig Pulse",
+    "description": "Your go-to resource for gig economy workers. Curated videos, news, driver essentials, and helpful tools.",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#0F172A",
+    "theme_color": "#00D9FF",
+    "orientation": "portrait",
+    "icons": [
+        {
+            "src": "/logo.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "/logo.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
+        }
+    ]
+};
+fs.writeFileSync(manifestPath, JSON.stringify(manifest, null, 2));
+console.log('Created manifest.json');
+
 console.log('Build setup complete!');
