@@ -100,9 +100,21 @@ function addMetaAndFontFace(dir) {
                     modified = true;
                 }
                 
-                // Add meta tags after <head>
+                // Add meta tags after <head> if not present
                 if (content.includes('<head>') && !content.includes('og:title')) {
                     content = content.replace('<head>', `<head>${metaTags}`);
+                    modified = true;
+                }
+                
+                // Always ensure manifest link is present
+                if (!content.includes('manifest.json')) {
+                    content = content.replace('</head>', '<link rel="manifest" href="/manifest.json"/></head>');
+                    modified = true;
+                }
+                
+                // Always ensure apple-touch-icon is present
+                if (!content.includes('apple-touch-icon')) {
+                    content = content.replace('</head>', '<link rel="apple-touch-icon" href="/logo.png"/></head>');
                     modified = true;
                 }
                 
