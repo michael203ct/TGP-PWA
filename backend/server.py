@@ -1742,14 +1742,24 @@ async def seed_static_content():
     
     for collection_name, default_data, id_field in collections_to_seed:
         collection = db[collection_name]
-        # Always upsert to ensure latest data (colors, descriptions, etc.) are applied
         logger.info(f"Syncing {collection_name} with {len(default_data)} items")
         for item in default_data:
-            await collection.update_one(
-                {id_field: item[id_field]},
-                {"$set": item},
-                upsert=True
-            )
+            # Check if item exists and has a price that was manually changed
+            existing = await collection.find_one({id_field: item[id_field]})
+            if existing and 'price' in existing and 'price' in item:
+                # Preserve manually set price
+                item_to_set = {k: v for k, v in item.items() if k != 'price'}
+                await collection.update_one(
+                    {id_field: item[id_field]},
+                    {"$set": item_to_set, "$setOnInsert": {"price": item.get("price")}},
+                    upsert=True
+                )
+            else:
+                await collection.update_one(
+                    {id_field: item[id_field]},
+                    {"$set": item},
+                    upsert=True
+                )
 
 @static_content_router.get("/weekly-shows")
 async def get_weekly_shows():
