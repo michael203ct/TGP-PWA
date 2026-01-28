@@ -937,6 +937,8 @@ async def hide_video(video_id: str):
             {"$set": {"video_id": video_id, "hidden_at": datetime.now(timezone.utc)}},
             upsert=True
         )
+        # Clear the feed cache so hidden video is immediately removed
+        await db.youtube_feed_cache.delete_many({"feed_type": "featured"})
         return {"success": True, "message": f"Video {video_id} hidden"}
     except Exception as e:
         logger.error(f"Error hiding video: {str(e)}")
@@ -947,6 +949,8 @@ async def unhide_video(video_id: str):
     """Unhide a video (admin function)."""
     try:
         result = await db.hidden_videos.delete_one({"video_id": video_id})
+        # Clear the feed cache so unhidden video appears again
+        await db.youtube_feed_cache.delete_many({"feed_type": "featured"})
         if result.deleted_count == 0:
             return {"success": False, "message": "Video was not hidden"}
         return {"success": True, "message": f"Video {video_id} unhidden"}
