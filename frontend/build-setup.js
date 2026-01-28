@@ -74,7 +74,10 @@ const metaTags = `<title>The Gig Pulse | Educate. Elevate. Motivate.</title>
 <meta property="og:type" content="website"/>
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://thegigpulse.com/og-image.png"/>
-<link rel="icon" type="image/png" href="/logo.png"/>`;
+<meta name="theme-color" content="#00D9FF"/>
+<link rel="icon" type="image/png" href="/logo.png"/>
+<link rel="apple-touch-icon" href="/logo.png"/>
+<link rel="manifest" href="/manifest.json"/>`;
 
 const fontFace = `@font-face{font-family:'Ionicons';src:url('/ionicons.ttf') format('truetype');font-weight:normal;font-style:normal;font-display:block;}`;
 
