@@ -94,6 +94,8 @@ The Gig Pulse is a Progressive Web App (PWA) designed for gig economy workers - 
 - Frontend runs on port 3000
 - All API endpoints prefixed with /api
 - Admin Hide Video: 5-tap on "Latest Videos" title, 2-second window
+- **Important**: Admin panel uses cross-platform alert helper (`showAlert`) because React Native's `Alert.alert` doesn't work on web
+- Deployment uses `build-setup.js` script for consistent asset handling
 
 ## Test Results (Jan 26, 2026)
 - Backend: 100% (18/18 tests passed)
