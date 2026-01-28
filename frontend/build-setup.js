@@ -69,14 +69,15 @@ const metaTags = `<title>The Gig Pulse | Educate. Elevate. Motivate.</title>
 <meta name="description" content="Your go-to resource for gig economy workers. Curated videos, news, driver essentials, and helpful tools for Uber, Lyft, DoorDash, Instacart drivers."/>
 <meta property="og:title" content="The Gig Pulse | Educate. Elevate. Motivate."/>
 <meta property="og:description" content="Your go-to resource for gig economy workers. Curated videos, news, driver essentials, and helpful tools."/>
-<meta property="og:image" content="https://thegigpulse.com/og-image.png"/>
+<meta property="og:image" content="https://thegigpulse.com/icon.png"/>
 <meta property="og:url" content="https://thegigpulse.com"/>
 <meta property="og:type" content="website"/>
 <meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="https://thegigpulse.com/og-image.png"/>
+<meta name="twitter:image" content="https://thegigpulse.com/icon.png"/>
 <meta name="theme-color" content="#00D9FF"/>
-<link rel="icon" type="image/png" href="/logo.png"/>
-<link rel="apple-touch-icon" href="/logo.png"/>
+<link rel="icon" type="image/png" href="/icon.png"/>
+<link rel="shortcut icon" type="image/png" href="/icon.png"/>
+<link rel="apple-touch-icon" href="/icon.png"/>
 <link rel="manifest" href="/manifest.json"/>`;
 
 const fontFace = `@font-face{font-family:'Ionicons';src:url('/ionicons.ttf') format('truetype');font-weight:normal;font-style:normal;font-display:block;}`;
