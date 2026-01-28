@@ -138,25 +138,29 @@ function addMetaAndFontFace(dir) {
 
 addMetaAndFontFace(distDir);
 
-// Always copy logo.png and og-image.png from the header logo
-const logoSource = path.join(distDir, 'assets/assets');
-if (fs.existsSync(logoSource)) {
-    try {
-        const logoFiles = fs.readdirSync(logoSource).filter(f => f.startsWith('logo-full'));
-        if (logoFiles.length > 0) {
-            const sourceLogoPath = path.join(logoSource, logoFiles[0]);
-            
-            // Copy to logo.png
-            fs.copyFileSync(sourceLogoPath, path.join(distDir, 'logo.png'));
-            console.log('Copied logo.png');
-            
-            // Copy to og-image.png (use same logo for now)
-            fs.copyFileSync(sourceLogoPath, path.join(distDir, 'og-image.png'));
-            console.log('Copied og-image.png');
+// Copy icon files - check if icon.png already exists, if not use logo-full from assets
+const iconDestPath = path.join(distDir, 'icon.png');
+if (!fs.existsSync(iconDestPath)) {
+    const logoSource = path.join(distDir, 'assets/assets');
+    if (fs.existsSync(logoSource)) {
+        try {
+            const logoFiles = fs.readdirSync(logoSource).filter(f => f.startsWith('logo-full'));
+            if (logoFiles.length > 0) {
+                const sourceLogoPath = path.join(logoSource, logoFiles[0]);
+                fs.copyFileSync(sourceLogoPath, iconDestPath);
+                console.log('Copied icon.png from assets');
+            }
+        } catch (err) {
+            console.log('Icon copy error:', err.message);
         }
-    } catch (err) {
-        console.log('Logo copy error:', err.message);
     }
+}
+
+// Also create logo.png and og-image.png from icon.png for consistency
+if (fs.existsSync(iconDestPath)) {
+    fs.copyFileSync(iconDestPath, path.join(distDir, 'logo.png'));
+    fs.copyFileSync(iconDestPath, path.join(distDir, 'og-image.png'));
+    console.log('Created logo.png and og-image.png from icon');
 }
 
 // Create PWA manifest with proper icon
