@@ -1781,8 +1781,11 @@ async def get_weekly_shows():
 
 @static_content_router.get("/featured-channels")
 async def get_static_featured_channels():
-    """Get featured YouTube channels from database"""
+    """Get featured YouTube channels from database in specific order"""
     items = await db.static_featured_channels.find({}, {"_id": 0}).to_list(100)
+    # Define explicit order
+    order = {"fc-ridesharerodeo": 1, "fc-rideshareguy": 2, "fc-rideshareprof": 3}
+    items.sort(key=lambda x: order.get(x.get("id"), 99))
     return {"success": True, "data": items, "count": len(items)}
 
 @static_content_router.get("/gig-apps")
@@ -1793,14 +1796,20 @@ async def get_gig_apps():
 
 @static_content_router.get("/helpful-tools")
 async def get_helpful_tools():
-    """Get helpful tools from database"""
+    """Get helpful tools from database in specific order"""
     items = await db.static_helpful_tools.find({}, {"_id": 0}).to_list(100)
+    # Order: Gridwise, WorkSolo, Everlance, GigU, Mystro, Maxymo
+    order = {"tool-gridwise": 1, "tool-worksolo": 2, "tool-everlance": 3, "tool-gigu": 4, "tool-mystro": 5, "tool-maxymo": 6}
+    items.sort(key=lambda x: order.get(x.get("id"), 99))
     return {"success": True, "data": items, "count": len(items)}
 
 @static_content_router.get("/featured-gear")
 async def get_featured_gear():
-    """Get featured gear/essentials from database"""
+    """Get featured gear/essentials from database in specific order"""
     items = await db.static_featured_gear.find({}, {"_id": 0}).to_list(100)
+    # Order: REDTIGER, Fanttik, iOttie
+    order = {"fg-redtiger": 1, "fg-fanttik": 2, "fg-iottie": 3}
+    items.sort(key=lambda x: order.get(x.get("id"), 99))
     return {"success": True, "data": items, "count": len(items)}
 
 @static_content_router.get("/community-favorites")
