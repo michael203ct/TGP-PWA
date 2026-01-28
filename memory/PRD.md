@@ -71,8 +71,7 @@ The Gig Pulse is a Progressive Web App (PWA) designed for gig economy workers - 
 - None - all core functionality complete ✅
 
 ### P1 (High)
-- Deploy to production
-- Configure custom domain thegigpulse.com
+- Full end-to-end verification of admin functionality on deployed site
 
 ### P2 (Medium)  
 - PWA manifest and service worker configuration
