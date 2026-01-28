@@ -3,8 +3,16 @@
 ## Original Problem Statement
 Convert "The Gig Pulse" PWA from Expo React Native to standard React for web deployment. Clone GitHub repository https://github.com/michael203ct/thegigpulse.git, keep FastAPI backend as-is, deploy for custom domain thegigpulse.com.
 
-## Latest Update (Jan 26, 2026)
-- ✅ **Admin Hide Video Feature COMPLETE** - Tap "Latest Videos" title 5 times to enable admin mode, red X button appears to hide videos
+## Latest Update (Jan 28, 2026)
+- ✅ **Admin Reject Button FIXED** - The Reject button now works on web platform using cross-platform alert helper
+- ✅ **Data Ordering Fixed** - Featured Gear, Channels, and Tools now display in correct order
+- ✅ **Price Persistence Fixed** - Manual price changes are no longer reset on server restart
+- ✅ **Video Hide Persistence** - Hidden videos remain hidden after cache refresh
+- ✅ **PWA & SEO Meta Tags** - Proper manifest.json, icons, and OG tags for link previews
+- ✅ **Ionicons Font Fixed** - Icons now load correctly on deployed site
+
+## Previous Updates (Jan 24-26, 2026)
+- ✅ **Admin Hide Video Feature** - Tap "Latest Videos" title 5 times to enable admin mode
 - ✅ All backend syntax errors fixed
 - ✅ Frontend rebuilt and deployed
 - ✅ All 18 backend tests passing (100%)
