@@ -792,23 +792,13 @@ async def get_latest_videos(
                     if 'youtube.com/shorts' in desc_lower or 'youtu.be/shorts' in desc_lower:
                         continue
                     
-                    # Count hashtags in title - ANY video with 2+ hashtags is likely a Short
+                    # Count hashtags in title - ANY video with 3+ hashtags is likely a Short
                     hashtag_count = title.count('#')
-                    if hashtag_count >= 2:
+                    if hashtag_count >= 3:
                         continue
                     
-                    # Any hashtag at all in a title under 80 chars is likely a Short
-                    if hashtag_count >= 1 and len(title) < 80:
-                        continue
-                    
-                    # Very short titles (under 30 chars) are likely Shorts
-                    if len(title) < 30:
-                        continue
-                    
-                    # Check for common Short indicators in title (even with just 1 hashtag)
-                    short_indicators = ['#badpassenger', '#lostwages', '#sidehustle', '#gigwork', '#instacart', 
-                                       '#doordash', '#ubereats', '#deliverydriver', '#fyp', '#viral', '#trending',
-                                       '#ridesharedriver', '#investigation', '#uber', '#lyft', '#spark', '#amazon']
+                    # Check for common Short indicators in title
+                    short_indicators = ['#fyp', '#viral', '#trending', '#foryou', '#foryoupage']
                     if any(ind in title_lower for ind in short_indicators):
                         continue
                     
