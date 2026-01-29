@@ -816,6 +816,16 @@ async def get_latest_videos(
                     if filter_gig and not matches_gig_keywords(title, description):
                         continue
                     
+                    # Filter videos older than 14 days
+                    published_at_str = item["snippet"]["publishedAt"]
+                    try:
+                        published_date = datetime.fromisoformat(published_at_str.replace('Z', '+00:00'))
+                        cutoff_date = datetime.now(timezone.utc) - timedelta(days=14)
+                        if published_date < cutoff_date:
+                            continue
+                    except Exception:
+                        pass  # If date parsing fails, include the video
+                    
                     video_info = {
                         "video_id": video_id,
                         "title": title,
