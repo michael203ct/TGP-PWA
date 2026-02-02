@@ -418,30 +418,28 @@ async def approve_channel_suggestion(suggestion_id: str):
         # URL like youtube.com/channel/UCxxxxx - use channel ID format
         handle = "@" + channel_url.split("/channel/")[-1].split("/")[0].split("?")[0]
     else:
-        # Fallback - just use name
+        # Fallback - just use name without spaces
         handle = "@" + channel_name.replace(" ", "")
     
-    # Add to static_featured_channels collection
-    new_channel = {
-        "id": f"fc-{suggestion_id[:8]}",
-        "name": channel_name,
-        "handle": handle,
-        "tag": "Community suggested",
-        "thumbnail": "",  # Will need to be resolved by frontend
-        "channelUrl": channel_url
-    }
-    
-    # Check if channel already exists
-    existing = await db.static_featured_channels.find_one({"handle": handle})
+    # Check if channel already exists in approved channels
+    existing = await db.approved_video_channels.find_one({"handle": handle})
     if not existing:
-        await db.static_featured_channels.insert_one(new_channel)
+        # Add to approved_video_channels for the video feed
+        new_channel = {
+            "handle": handle,
+            "name": channel_name
+        }
+        await db.approved_video_channels.insert_one(new_channel)
+    
+    # Clear the video feed cache so new channel appears
+    await db.youtube_feed_cache.delete_many({"feed_type": "featured"})
     
     # Update suggestion status
     await db.channel_suggestions.update_one(
         {"id": suggestion_id},
         {"$set": {"status": "approved"}}
     )
-    return {"success": True, "message": f"Channel '{channel_name}' added to featured channels!"}
+    return {"success": True, "message": f"Channel '{channel_name}' added to video feed!"}
 
 @api_router.delete("/suggestions/channel/{suggestion_id}")
 async def delete_channel_suggestion(suggestion_id: str):
