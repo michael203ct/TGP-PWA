@@ -1026,12 +1026,18 @@ FEATURED_CHANNELS = [
 @youtube_router.get("/featured-channels")
 async def get_featured_channels():
     """
-    Return the list of featured gig channels.
+    Return the list of featured gig channels (combines hardcoded + approved suggestions).
     """
+    # Get approved channels from database
+    approved_channels = await db.approved_video_channels.find({}, {"_id": 0}).to_list(100)
+    
+    # Combine with default channels
+    all_channels = FEATURED_CHANNELS + approved_channels
+    
     return {
         "success": True,
-        "data": FEATURED_CHANNELS,
-        "count": len(FEATURED_CHANNELS)
+        "data": all_channels,
+        "count": len(all_channels)
     }
 
 @youtube_router.get("/resolve-handle/{handle}")
