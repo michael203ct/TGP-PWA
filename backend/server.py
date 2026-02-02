@@ -263,6 +263,22 @@ async def get_subscribers(list_type: Optional[str] = None):
     subscribers = await db.email_subscribers.find(query, {"_id": 0}).to_list(1000)
     return {"count": len(subscribers), "subscribers": subscribers}
 
+@api_router.delete("/subscribers/clear-test")
+async def clear_test_subscribers():
+    """Admin endpoint to clear test email subscribers"""
+    result = await db.email_subscribers.delete_many({
+        "email": {"$regex": "^test.*@example\\.com$"}
+    })
+    return {"success": True, "deleted": result.deleted_count}
+
+@api_router.delete("/subscribers/{email}")
+async def delete_subscriber(email: str):
+    """Admin endpoint to delete a specific subscriber"""
+    result = await db.email_subscribers.delete_one({"email": email.lower()})
+    if result.deleted_count == 0:
+        raise HTTPException(status_code=404, detail="Subscriber not found")
+    return {"success": True}
+
 # ----- Gear Suggestions -----
 @api_router.post("/suggestions/gear", response_model=GearSuggestion)
 async def create_gear_suggestion(input: GearSuggestionCreate):
