@@ -128,6 +128,12 @@ function addMetaAndFontFace(dir) {
                     modified = true;
                 }
                 
+                // Add Buy Me a Coffee button before </body>
+                if (!content.includes('buymeacoffee.com') && content.includes('</body>')) {
+                    content = content.replace('</body>', `${bmcButtonScript}</body>`);
+                    modified = true;
+                }
+                
                 if (modified) {
                     fs.writeFileSync(filePath, content);
                     console.log(`Updated meta/font in: ${file}`);
