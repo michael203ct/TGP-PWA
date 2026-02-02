@@ -80,8 +80,8 @@ const metaTags = `<title>The Gig Pulse | Educate. Elevate. Motivate.</title>
 <link rel="apple-touch-icon" href="/icon.png"/>
 <link rel="manifest" href="/manifest.json"/>`;
 
-// Buy Me a Coffee floating button script
-const bmcButtonScript = `<script type="text/javascript" src="https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js" data-name="bmc-button" data-slug="thegigpulse" data-color="#22d3ee" data-emoji="" data-font="Cookie" data-text="Buy me a coffee" data-outline-color="#000000" data-font-color="#000000" data-coffee-color="#FFDD00"></script>`;
+// Buy Me a Coffee floating button script - subtle version
+const bmcButtonScript = `<script type="text/javascript" src="https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js" data-name="bmc-button" data-slug="thegigpulse" data-color="#22d3ee" data-emoji="" data-font="Cookie" data-text="Support the site" data-outline-color="#000000" data-font-color="#000000" data-coffee-color="#FFDD00"></script>`;
 
 const fontFace = `@font-face{font-family:'Ionicons';src:url('/ionicons.ttf') format('truetype');font-weight:normal;font-style:normal;font-display:block;}`;
 
