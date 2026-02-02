@@ -1229,7 +1229,11 @@ async def get_video_feed(max_per_channel: int = 3, force_refresh: bool = False):
             return None, []
         
         # Run all channel fetches concurrently
-        results = await asyncio.gather(*[fetch_channel_videos(ch) for ch in FEATURED_CHANNELS])
+        # Get approved channels from database and combine with default
+        approved_channels = await db.approved_video_channels.find({}, {"_id": 0}).to_list(100)
+        all_feed_channels = FEATURED_CHANNELS + approved_channels
+        
+        results = await asyncio.gather(*[fetch_channel_videos(ch) for ch in all_feed_channels])
         
         for channel_resolved, videos in results:
             if channel_resolved:
