@@ -402,12 +402,46 @@ async def approve_channel_suggestion(suggestion_id: str):
     if not suggestion:
         raise HTTPException(status_code=404, detail="Suggestion not found")
     
+    # Extract handle from URL
+    channel_url = suggestion.get("url", "")
+    channel_name = suggestion.get("name", "")
+    
+    # Try to extract handle from URL
+    handle = ""
+    if "@" in channel_url:
+        # URL like youtube.com/@handle
+        handle = "@" + channel_url.split("@")[-1].split("/")[0].split("?")[0]
+    elif "/c/" in channel_url:
+        # URL like youtube.com/c/channelname
+        handle = "@" + channel_url.split("/c/")[-1].split("/")[0].split("?")[0]
+    elif "/channel/" in channel_url:
+        # URL like youtube.com/channel/UCxxxxx - use channel ID format
+        handle = "@" + channel_url.split("/channel/")[-1].split("/")[0].split("?")[0]
+    else:
+        # Fallback - just use name
+        handle = "@" + channel_name.replace(" ", "")
+    
+    # Add to static_featured_channels collection
+    new_channel = {
+        "id": f"fc-{suggestion_id[:8]}",
+        "name": channel_name,
+        "handle": handle,
+        "tag": "Community suggested",
+        "thumbnail": "",  # Will need to be resolved by frontend
+        "channelUrl": channel_url
+    }
+    
+    # Check if channel already exists
+    existing = await db.static_featured_channels.find_one({"handle": handle})
+    if not existing:
+        await db.static_featured_channels.insert_one(new_channel)
+    
     # Update suggestion status
     await db.channel_suggestions.update_one(
         {"id": suggestion_id},
         {"$set": {"status": "approved"}}
     )
-    return {"success": True, "message": "Channel suggestion approved - manual setup required"}
+    return {"success": True, "message": f"Channel '{channel_name}' added to featured channels!"}
 
 @api_router.delete("/suggestions/channel/{suggestion_id}")
 async def delete_channel_suggestion(suggestion_id: str):
