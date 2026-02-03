@@ -80,9 +80,8 @@ const metaTags = `<title>The Gig Pulse | Educate. Elevate. Motivate.</title>
 <link rel="apple-touch-icon" href="/icon.png"/>
 <link rel="manifest" href="/manifest.json"/>`;
 
-// Buy Me a Coffee floating button - small and subtle with proper fixed positioning
-const bmcButtonScript = `<script type="text/javascript" src="https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js" data-name="bmc-button" data-slug="thegigpulse" data-color="#22d3ee" data-emoji="" data-font="Cookie" data-text="Buy me a coffee" data-outline-color="#000000" data-font-color="#000000" data-coffee-color="#FFDD00"></script>
-<style>.bmc-btn-container{position:fixed!important;bottom:90px!important;right:18px!important;z-index:99999!important;}.bmc-btn{transform:scale(0.7)!important;transform-origin:bottom right!important;opacity:0.8!important;box-shadow:0 2px 8px rgba(0,0,0,0.3)!important;}.bmc-btn:hover{opacity:1!important;transform:scale(0.75)!important;}</style>`;
+// Custom floating support button - redirects to /support page
+const bmcButtonScript = `<a href="/support" id="support-float-btn" style="position:fixed;bottom:90px;right:18px;z-index:99999;display:inline-flex;align-items:center;gap:8px;padding:8px 14px;background:#22d3ee;color:#000;font-family:Cookie,cursive;font-size:16px;font-weight:500;text-decoration:none;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.3);opacity:0.8;transition:all 0.2s ease;" onmouseover="this.style.opacity='1';this.style.transform='scale(1.05)'" onmouseout="this.style.opacity='0.8';this.style.transform='scale(1)'"><img src="https://cdn.buymeacoffee.com/buttons/bmc-new-btn-logo.svg" alt="" style="height:20px;width:20px;">Buy me a coffee</a>`;
 
 const fontFace = `@font-face{font-family:'Ionicons';src:url('/ionicons.ttf') format('truetype');font-weight:normal;font-style:normal;font-display:block;}`;
 
