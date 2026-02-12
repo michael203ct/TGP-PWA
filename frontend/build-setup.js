@@ -149,9 +149,31 @@ function addMetaAndFontFace(dir) {
 
 addMetaAndFontFace(distDir);
 
-// Copy icon files - check if icon.png already exists, if not use logo-full from assets
+// Check if custom colored icons exist in parent directory (preserved between builds)
+const customIconPath = path.join(__dirname, 'custom-icons');
 const iconDestPath = path.join(distDir, 'icon.png');
-if (!fs.existsSync(iconDestPath)) {
+
+// If custom icons folder exists, use those instead
+if (fs.existsSync(customIconPath)) {
+    const customIcon = path.join(customIconPath, 'icon.png');
+    const customOg = path.join(customIconPath, 'og-image.png');
+    const customApple = path.join(customIconPath, 'apple-touch-icon.png');
+    
+    if (fs.existsSync(customIcon)) {
+        fs.copyFileSync(customIcon, iconDestPath);
+        fs.copyFileSync(customIcon, path.join(distDir, 'logo.png'));
+        console.log('Copied custom colored icon.png');
+    }
+    if (fs.existsSync(customOg)) {
+        fs.copyFileSync(customOg, path.join(distDir, 'og-image.png'));
+        console.log('Copied custom og-image.png');
+    }
+    if (fs.existsSync(customApple)) {
+        fs.copyFileSync(customApple, path.join(distDir, 'apple-touch-icon.png'));
+        console.log('Copied custom apple-touch-icon.png');
+    }
+} else if (!fs.existsSync(iconDestPath)) {
+    // Fallback: Copy icon files from assets if no custom icons
     const logoSource = path.join(distDir, 'assets/assets');
     if (fs.existsSync(logoSource)) {
         try {
@@ -159,19 +181,14 @@ if (!fs.existsSync(iconDestPath)) {
             if (logoFiles.length > 0) {
                 const sourceLogoPath = path.join(logoSource, logoFiles[0]);
                 fs.copyFileSync(sourceLogoPath, iconDestPath);
-                console.log('Copied icon.png from assets');
+                fs.copyFileSync(iconDestPath, path.join(distDir, 'logo.png'));
+                fs.copyFileSync(iconDestPath, path.join(distDir, 'og-image.png'));
+                console.log('Copied default icons from assets');
             }
         } catch (err) {
             console.log('Icon copy error:', err.message);
         }
     }
-}
-
-// Also create logo.png and og-image.png from icon.png for consistency
-if (fs.existsSync(iconDestPath)) {
-    fs.copyFileSync(iconDestPath, path.join(distDir, 'logo.png'));
-    fs.copyFileSync(iconDestPath, path.join(distDir, 'og-image.png'));
-    console.log('Created logo.png and og-image.png from icon');
 }
 
 // Create PWA manifest with proper icon
