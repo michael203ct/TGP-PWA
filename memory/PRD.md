@@ -4,15 +4,13 @@
 Convert "The Gig Pulse" PWA from Expo React Native to standard React for web deployment. Clone GitHub repository https://github.com/michael203ct/thegigpulse.git, keep FastAPI backend as-is, deploy for custom domain thegigpulse.com.
 
 ## Latest Update (Dec 2025)
-- ✅ **YouTube Shorts Filter** - All videos < 3 minutes now filtered out from content feed
-- ✅ **Home Page Arena Section** - Live Pulse text changed to "Live streams and competitions"
-- ✅ **Arena Tab Fixed** - Outline flame icon (flame-outline), within footer bounds, not extending outside
-- ✅ **Support Banner Global** - Visible on all tab pages above the footer
-- ✅ **Live Pulse Page** - Fixed top padding, "Upcoming Streams" section removed, bottom tabs added
-- ✅ **Driver Wins Page** - Distance/time aligned vertically, base+tip shown below total, bottom tabs added
-- ✅ **Driver Wins Form** - Auto-calculates Total when Base Pay or Tip changes
-- ✅ **Fire Tiered Badges** - 0-1→🔥, 2-4→🔥🔥, 5-9→🔥🔥🔥, 10+→🔥🔥🔥🔥
-- ✅ **Create Live Session** - Simplified form (Username, Stream URL, Description only)
+- ✅ **YouTube Shorts Filter** - All videos < 3 minutes filtered out
+- ✅ **Arena Tab Label Fixed** - "Arena" text now visible in footer
+- ✅ **Header Padding Fixed** - Live Pulse/Driver Wins headers not cropped
+- ✅ **Driver Wins Date Stamp** - Full date/time shown: "Sat, Feb 14 • 4:25 AM"
+- ✅ **Referral Text Layout** - Split into 2 lines with down arrow (↓)
+- ✅ **Support Banner Global** - Visible on all tab pages
+- ✅ **Auto-Calculate Total** - Base Pay + Tip = Total (auto-updates in form)
 
 ## Previous Updates (Feb 14, 2026)
 - ✅ **The Arena** - New centerpiece feature with Live Pulse and Driver Wins
