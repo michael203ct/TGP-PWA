@@ -5,18 +5,25 @@ Convert "The Gig Pulse" PWA from Expo React Native to standard React for web dep
 
 ## Latest Update (Dec 2025)
 - ✅ **YouTube Shorts Filter** - All videos < 3 minutes now filtered out from content feed
-- ✅ **Duration Tracking** - Video durations exposed in API response for debugging
+- ✅ **Home Page Arena Section** - Added subtle cyan borders to Live Pulse/Driver Wins cards
+- ✅ **2x2 Grid Layout** - Four main nav cards now in a proper 2x2 grid (visible without scrolling on mobile)
+- ✅ **Arena Tab Fire Emoji** - Changed from flame icon to 🔥 emoji in tab bar
+- ✅ **Tab Bar Height Fixed** - Increased height and padding to prevent Arena tab from being cropped
+- ✅ **Support Banner** - Replaced floating "Buy me a coffee" button with subtle banner above tab bar
+- ✅ **Live Pulse Page** - Fixed top padding, renamed to "Live Streams and Competitions", added "Upcoming Competitions" section
+- ✅ **Driver Wins $/mi & $/hr** - Shows earnings per mile and per hour calculations
+- ✅ **Fire Emoji Animation** - Scale + color flash animation when clicking fire button
+- ✅ **Fire Tiered Badges** - 0-1→🔥, 2-4→🔥🔥, 5-9→🔥🔥🔥, 10+→🔥🔥🔥🔥
+- ✅ **Create Live Session Simplified** - Form reduced to: Username, Stream URL (YouTube/Twitch), Description (optional)
 
 ## Previous Updates (Feb 14, 2026)
 - ✅ **The Arena** - New centerpiece feature with Live Pulse and Driver Wins
 - ✅ **Driver Wins** - Real-time trip sharing with fire 🔥 voting system
 - ✅ **Live Pulse** - Live streaming earnings tally with host mode for streamers
 - ✅ **5-Tab Navigation** - Content, News Feed, Arena (center), Essentials, Apps
-- ✅ **Arena Tab** - Prominent center tab with cyan flame icon and glow
 - ✅ **Referral Note** - Added to Apps page: "Use my referral link..."
 - ✅ **Support the Pulse** - Renamed from "Support" in burger menu
-- ✅ **Home Page Redesign** - Hero + Arena section + 2x2 grid layout
-- ✅ **Buy Me a Coffee** - Floating button and Support page
+- ✅ **Buy Me a Coffee** - Support page integration
 
 ## Previous Updates
 - ✅ Admin Reject Button - Cross-platform alert helper
