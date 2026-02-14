@@ -168,6 +168,105 @@ class VoteRequest(BaseModel):
 class ClickRequest(BaseModel):
     product_id: str
 
+# ============ Arena Models ============
+
+# Driver Wins - Trip sharing
+class DriverWinTrip(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    username: str
+    platform: str  # uber, lyft, doordash, instacart, etc.
+    total_amount: float
+    base_pay: Optional[float] = None
+    tip_amount: Optional[float] = None
+    miles: Optional[float] = None
+    minutes: Optional[int] = None
+    note: Optional[str] = None
+    personal_link: Optional[str] = None
+    fires: int = 1  # Start with 1 fire
+    fired_by: List[str] = Field(default_factory=list)  # device_ids
+    session_id: str  # For editing own trips
+    tip_updated: bool = False
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    updated_at: Optional[datetime] = None
+
+class DriverWinTripCreate(BaseModel):
+    username: str
+    platform: str
+    total_amount: float
+    base_pay: Optional[float] = None
+    tip_amount: Optional[float] = None
+    miles: Optional[float] = None
+    minutes: Optional[int] = None
+    note: Optional[str] = None
+    personal_link: Optional[str] = None
+    session_id: str
+
+class DriverWinTripUpdate(BaseModel):
+    total_amount: Optional[float] = None
+    base_pay: Optional[float] = None
+    tip_amount: Optional[float] = None
+    miles: Optional[float] = None
+    minutes: Optional[int] = None
+    note: Optional[str] = None
+    session_id: str
+
+# Live Pulse - Live sessions and competitions
+class LivePulseSession(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    title: str
+    description: Optional[str] = None
+    host_name: str
+    host_key: str  # Secret key for host access
+    youtube_url: Optional[str] = None
+    twitch_url: Optional[str] = None
+    thumbnail_url: Optional[str] = None
+    is_live: bool = False
+    total_earnings: float = 0
+    platform_breakdown: Dict[str, float] = Field(default_factory=dict)
+    trip_count: int = 0
+    start_time: Optional[datetime] = None
+    end_time: Optional[datetime] = None
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    updated_at: Optional[datetime] = None
+
+class LivePulseSessionCreate(BaseModel):
+    title: str
+    description: Optional[str] = None
+    host_name: str
+    youtube_url: Optional[str] = None
+    twitch_url: Optional[str] = None
+    thumbnail_url: Optional[str] = None
+    start_time: Optional[datetime] = None
+
+class LivePulseTripAdd(BaseModel):
+    host_key: str
+    platform: str
+    amount: float
+    base_pay: Optional[float] = None
+    tip_amount: Optional[float] = None
+    note: Optional[str] = None
+
+class Competition(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    title: str
+    description: Optional[str] = None
+    competition_type: str  # "2v2", "3v3", "solo_tally", "team_relay"
+    scheduled_time: datetime
+    status: str = "pending"  # pending, approved, live, completed
+    participants: List[Dict] = Field(default_factory=list)
+    created_by: str  # username
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+
+class CompetitionCreate(BaseModel):
+    title: str
+    description: Optional[str] = None
+    competition_type: str
+    scheduled_time: datetime
+    created_by: str
+
+# Arena Router
+arena_router = APIRouter(prefix="/api/arena", tags=["arena"])
+
 # ============ Routes ============
 
 @api_router.get("/")
