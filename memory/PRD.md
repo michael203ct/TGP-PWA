@@ -5,16 +5,14 @@ Convert "The Gig Pulse" PWA from Expo React Native to standard React for web dep
 
 ## Latest Update (Dec 2025)
 - ✅ **YouTube Shorts Filter** - All videos < 3 minutes now filtered out from content feed
-- ✅ **Home Page Arena Section** - Added subtle cyan borders to Live Pulse/Driver Wins cards
-- ✅ **2x2 Grid Layout** - Four main nav cards now in a proper 2x2 grid (visible without scrolling on mobile)
-- ✅ **Arena Tab Fire Emoji** - Changed from flame icon to 🔥 emoji in tab bar
-- ✅ **Tab Bar Height Fixed** - Increased height and padding to prevent Arena tab from being cropped
-- ✅ **Support Banner** - Replaced floating "Buy me a coffee" button with subtle banner above tab bar
-- ✅ **Live Pulse Page** - Fixed top padding, renamed to "Live Streams and Competitions", added "Upcoming Competitions" section
-- ✅ **Driver Wins $/mi & $/hr** - Shows earnings per mile and per hour calculations
-- ✅ **Fire Emoji Animation** - Scale + color flash animation when clicking fire button
+- ✅ **Home Page Arena Section** - Live Pulse text changed to "Live streams and competitions"
+- ✅ **Arena Tab Fixed** - Outline flame icon (flame-outline), within footer bounds, not extending outside
+- ✅ **Support Banner Global** - Visible on all tab pages above the footer
+- ✅ **Live Pulse Page** - Fixed top padding, "Upcoming Streams" section removed, bottom tabs added
+- ✅ **Driver Wins Page** - Distance/time aligned vertically, base+tip shown below total, bottom tabs added
+- ✅ **Driver Wins Form** - Auto-calculates Total when Base Pay or Tip changes
 - ✅ **Fire Tiered Badges** - 0-1→🔥, 2-4→🔥🔥, 5-9→🔥🔥🔥, 10+→🔥🔥🔥🔥
-- ✅ **Create Live Session Simplified** - Form reduced to: Username, Stream URL (YouTube/Twitch), Description (optional)
+- ✅ **Create Live Session** - Simplified form (Username, Stream URL, Description only)
 
 ## Previous Updates (Feb 14, 2026)
 - ✅ **The Arena** - New centerpiece feature with Live Pulse and Driver Wins
