@@ -200,6 +200,7 @@ class DriverWinTripCreate(BaseModel):
     note: Optional[str] = None
     personal_link: Optional[str] = None
     session_id: str
+    shift_complete: Optional[bool] = False
 
 class DriverWinTripUpdate(BaseModel):
     total_amount: Optional[float] = None
@@ -2079,9 +2080,10 @@ async def create_driver_win(trip: DriverWinTripCreate):
     """Create a new driver win trip"""
     trip_dict = trip.dict()
     trip_dict["id"] = str(uuid.uuid4())
-    trip_dict["fires"] = 1
+    trip_dict["fires"] = 0  # Start with 0 fires as per fire system requirements
     trip_dict["fired_by"] = []
     trip_dict["tip_updated"] = False
+    trip_dict["shift_complete"] = trip_dict.get("shift_complete", False)
     trip_dict["created_at"] = datetime.now(timezone.utc)
     trip_dict["updated_at"] = None
     
