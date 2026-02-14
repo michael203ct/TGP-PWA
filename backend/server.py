@@ -972,6 +972,12 @@ async def get_latest_videos(
                     if any(ind in title_lower for ind in short_indicators):
                         continue
                     
+                    # Filter out videos under 3 minutes (180 seconds) - catches Shorts and short clips
+                    duration_str = stats.get("duration", "")
+                    duration_seconds = parse_iso8601_duration(duration_str)
+                    if duration_seconds > 0 and duration_seconds < 180:
+                        continue
+                    
                     # Apply keyword filter if enabled
                     if filter_gig and not matches_gig_keywords(title, description):
                         continue
