@@ -3,21 +3,24 @@
 ## Original Problem Statement
 Convert "The Gig Pulse" PWA from Expo React Native to standard React for web deployment. Clone GitHub repository https://github.com/michael203ct/thegigpulse.git, keep FastAPI backend as-is, deploy for custom domain thegigpulse.com.
 
-## Latest Update (Jan 28, 2026)
-- ✅ **Admin Reject Button FIXED** - The Reject button now works on web platform using cross-platform alert helper
-- ✅ **Data Ordering Fixed** - Featured Gear, Channels, and Tools now display in correct order
-- ✅ **Price Persistence Fixed** - Manual price changes are no longer reset on server restart
-- ✅ **Video Hide Persistence** - Hidden videos remain hidden after cache refresh
-- ✅ **PWA & SEO Meta Tags** - Proper manifest.json, icons, and OG tags for link previews
-- ✅ **Ionicons Font Fixed** - Icons now load correctly on deployed site
+## Latest Update (Feb 14, 2026)
+- ✅ **The Arena** - New centerpiece feature with Live Pulse and Driver Wins
+- ✅ **Driver Wins** - Real-time trip sharing with fire 🔥 voting system
+- ✅ **Live Pulse** - Live streaming earnings tally with host mode for streamers
+- ✅ **5-Tab Navigation** - Content, News Feed, Arena (center), Essentials, Apps
+- ✅ **Arena Tab** - Prominent center tab with cyan flame icon and glow
+- ✅ **Referral Note** - Added to Apps page: "Use my referral link..."
+- ✅ **Support the Pulse** - Renamed from "Support" in burger menu
+- ✅ **Home Page Redesign** - Hero + Arena section + 2x2 grid layout
+- ✅ **Buy Me a Coffee** - Floating button and Support page
 
-## Previous Updates (Jan 24-26, 2026)
-- ✅ **Admin Hide Video Feature** - Tap "Latest Videos" title 5 times to enable admin mode
-- ✅ All backend syntax errors fixed
-- ✅ Frontend rebuilt and deployed
-- ✅ All 18 backend tests passing (100%)
-- ✅ All frontend tests passing (100%)
-- ✅ Apps page scrolling confirmed working
+## Previous Updates
+- ✅ Admin Reject Button - Cross-platform alert helper
+- ✅ Data Ordering - Featured items display in correct order
+- ✅ Price Persistence - Manual price changes preserved
+- ✅ Video Hide Persistence - Hidden videos stay hidden
+- ✅ PWA & SEO Meta Tags - Proper manifest, icons, OG tags
+- ✅ Colored Logo/Favicon - Cyan logo on dark background
 
 ## Project Overview
 The Gig Pulse is a Progressive Web App (PWA) designed for gig economy workers - rideshare drivers, delivery workers, and shoppers. The platform curates educational content, industry news, essential gear, and helpful tools.
@@ -26,44 +29,75 @@ The Gig Pulse is a Progressive Web App (PWA) designed for gig economy workers - 
 1. **Rideshare Drivers** - Uber, Lyft drivers seeking tips, gear, and earnings strategies
 2. **Delivery Workers** - DoorDash, Grubhub, Amazon Flex drivers needing tools and advice  
 3. **Shopping Gig Workers** - Instacart, Shipt shoppers looking for community recommendations
-4. **App Administrators** - Content managers reviewing user suggestions and moderating video feed
+4. **Streamers/Content Creators** - Live streaming gig workers using Live Pulse for real-time earnings tally
+5. **App Administrators** - Content managers reviewing user suggestions and moderating content
 
-## Core Requirements (Static)
-- Home page with navigation to main sections
-- Content page with YouTube video feed (requires YouTube API key)
-- News Feed with RSS aggregation
-- Essentials page with featured gear and community favorites
-- Apps page listing gig platforms and helpful tools
-- Merch page (coming soon) with email subscription
-- Admin panel with password protection (mrn320)
-- Dark/Light theme toggle
-- PWA installation capability
-- **Admin Hide Video** - Moderators can hide inappropriate videos from the feed
+## Core Requirements
+
+### The Arena
+1. **Driver Wins** - Real-time trip sharing feed
+   - Share trips with platform, amount, miles, minutes, note
+   - Fire 🔥 voting system (tiered: 1 fire → 4+ fires)
+   - Edit own trips via localStorage session
+   - "Tip Updated" badge when tips are edited
+   - Guest-friendly (no account required)
+
+2. **Live Pulse** - Live streaming earnings tally
+   - Live Now and Upcoming sections
+   - Real-time earnings total and platform breakdown
+   - Host Mode via secret URL: `/host-mode?id={id}&key={key}`
+   - Streamers can add trips in real-time
+   - Competition creation (pending approval)
+
+### Navigation
+- 5-tab bottom navigation: Content, News Feed, Arena (center), Essentials, Apps
+- Arena tab is centerpiece with larger icon, cyan-400 highlight, subtle glow
+- Merch removed from tab bar (still accessible via menu)
 
 ## Architecture
-- **Frontend**: Expo (React Native for Web), built as static site with `npx expo export --platform web`
+- **Frontend**: Expo (React Native for Web), built as static site
 - **Backend**: FastAPI with Motor (async MongoDB driver)
 - **Database**: MongoDB
+- **Collections**: driver_wins, live_pulse_sessions, live_pulse_trips, competitions
 - **External Integrations**: YouTube Data API, RSS feeds
 
-## What's Been Implemented (Jan 24-26, 2026)
-- [x] Cloned repository from GitHub
-- [x] Built web version using Expo export
-- [x] Set up static server with API proxy
-- [x] All navigation pages: Home, Content, News, Essentials, Apps, Merch
-- [x] Bottom tab navigation and header with menu
-- [x] Admin panel with password authentication (mrn320)
-- [x] Suggestion forms: Channel, News, Gear, App
-- [x] Theme toggle (dark/light mode)
-- [x] YouTube API configured and working
-- [x] All static content seeded:
-  - 3 Weekly Shows
-  - 3 Featured Channels
-  - 10 Gig Apps with referral links
-  - 6 Helpful Tools
-  - 3 Featured Gear
-  - 19 Community Favorites
-- [x] **Admin Hide Video Feature** - 5-tap toggle, red X button on video cards
+## What's Been Implemented
+
+### Arena Features (Feb 14, 2026)
+- [x] Driver Wins API (CRUD, fire voting)
+- [x] Live Pulse Sessions API
+- [x] Host Mode for streamers
+- [x] Competition creation (pending approval)
+- [x] Real-time polling (10-15 seconds)
+- [x] localStorage session for editing own trips
+- [x] Fire emoji tiered badge system
+
+### Previous Features
+- [x] YouTube video feed with admin hide
+- [x] News RSS aggregation
+- [x] Essentials with price editing
+- [x] Apps page with referral links
+- [x] Admin panel (password: mrn320)
+- [x] Buy Me a Coffee integration
+
+## Technical Notes
+- Admin password: `mrn320`
+- Backend runs on port 8001
+- Frontend runs on port 3000
+- All API endpoints prefixed with /api
+- Host Mode URL: `/host-mode?id={session_id}&key={host_key}`
+- Cross-platform alerts using `showAlert()` helper
+- Deployment uses `build-setup.js` script
+
+## API Endpoints (Arena)
+- `GET /api/arena/driver-wins` - Get all trips
+- `POST /api/arena/driver-wins` - Create trip
+- `PUT /api/arena/driver-wins/{id}` - Update trip
+- `POST /api/arena/driver-wins/{id}/fire` - Fire/unfire trip
+- `GET /api/arena/live-pulse/sessions` - Get live/upcoming sessions
+- `POST /api/arena/live-pulse/sessions` - Create session
+- `GET /api/arena/live-pulse/host/{id}?key={key}` - Verify host
+- `POST /api/arena/live-pulse/sessions/{id}/add-trip` - Add trip (host only)
 
 ## Prioritized Backlog
 
@@ -71,33 +105,16 @@ The Gig Pulse is a Progressive Web App (PWA) designed for gig economy workers - 
 - None - all core functionality complete ✅
 
 ### P1 (High)
-- Full end-to-end verification of admin functionality on deployed site
+- Deploy with Arena features
+- Test Host Mode end-to-end
 
 ### P2 (Medium)  
-- PWA manifest and service worker configuration
-- Push notification support
+- Push notifications
 - Analytics integration
+- Competition management admin panel
 
 ### P3 (Low)
 - Social sharing features
-- User accounts and personalization
-- Merch store integration when ready
+- User accounts
+- Merch store integration
 
-## Next Tasks
-1. **Deploy the application** to production environment
-2. Configure custom domain thegigpulse.com
-3. Set up SSL certificate for custom domain
-
-## Technical Notes
-- Admin password: `mrn320`
-- Backend runs on port 8001
-- Frontend runs on port 3000
-- All API endpoints prefixed with /api
-- Admin Hide Video: 5-tap on "Latest Videos" title, 2-second window
-- **Important**: Admin panel uses cross-platform alert helper (`showAlert`) because React Native's `Alert.alert` doesn't work on web
-- Deployment uses `build-setup.js` script for consistent asset handling
-
-## Test Results (Jan 26, 2026)
-- Backend: 100% (18/18 tests passed)
-- Frontend: 100% (all features verified)
-- Test report: /app/test_reports/iteration_6.json
