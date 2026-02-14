@@ -1004,7 +1004,9 @@ async def get_latest_videos(
                         "like_count": stats.get("likeCount", "0"),
                         "comment_count": stats.get("commentCount", "0"),
                         "channel_title": channel_response["data"]["title"],
-                        "matches_gig_filter": True
+                        "matches_gig_filter": True,
+                        "duration": duration_str,
+                        "duration_seconds": duration_seconds
                     }
                     videos.append(video_info)
                 
