@@ -757,6 +757,25 @@ async def get_video_statistics(video_ids: list) -> dict:
     except Exception:
         return {}
 
+def parse_iso8601_duration(duration_str: str) -> int:
+    """Parse ISO 8601 duration (e.g., PT1H23M45S) to seconds"""
+    import re
+    if not duration_str:
+        return 0
+    
+    # Pattern for ISO 8601 duration: PT1H23M45S
+    pattern = r'PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?'
+    match = re.match(pattern, duration_str)
+    
+    if not match:
+        return 0
+    
+    hours = int(match.group(1) or 0)
+    minutes = int(match.group(2) or 0)
+    seconds = int(match.group(3) or 0)
+    
+    return hours * 3600 + minutes * 60 + seconds
+
 async def _get_channel_details_internal(channel_id: str, force_refresh: bool = False):
     """
     Internal function to fetch channel details (no rate limiting).
