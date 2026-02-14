@@ -2316,6 +2316,13 @@ async def startup_db_client():
     await db.static_helpful_tools.create_index("id", unique=True)
     await db.static_featured_gear.create_index("id", unique=True)
     await db.static_community_favorites.create_index("id", unique=True)
+    # Arena indexes
+    await db.driver_wins.create_index("id", unique=True)
+    await db.driver_wins.create_index([("created_at", -1)])
+    await db.live_pulse_sessions.create_index("id", unique=True)
+    await db.live_pulse_sessions.create_index("is_live")
+    await db.competitions.create_index("id", unique=True)
+    await db.competitions.create_index([("scheduled_time", 1)])
     logger.info("Database indexes created")
     
     # Seed static content if empty
