@@ -80,10 +80,9 @@ const metaTags = `<title>The Gig Pulse | Educate. Elevate. Motivate.</title>
 <link rel="apple-touch-icon" href="/icon.png"/>
 <link rel="manifest" href="/manifest.json"/>`;
 
-// Buy Me a Coffee floating button - redirects to /support page
-const bmcButtonScript = `<script type="text/javascript" src="https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js" data-name="bmc-button" data-slug="thegigpulse" data-color="#22d3ee" data-emoji="" data-font="Cookie" data-text="Buy me a coffee" data-outline-color="#000000" data-font-color="#000000" data-coffee-color="#FFDD00"></script>
-<style>.bmc-btn-container{position:fixed!important;bottom:90px!important;right:18px!important;z-index:99999!important;}.bmc-btn{transform:scale(0.7)!important;transform-origin:bottom right!important;opacity:0.8!important;box-shadow:0 2px 8px rgba(0,0,0,0.3)!important;}.bmc-btn:hover{opacity:1!important;transform:scale(0.75)!important;}</style>
-<script>document.addEventListener('click',function(e){var btn=e.target.closest('.bmc-btn');if(btn){e.preventDefault();e.stopPropagation();window.location.href='/support';}},true);</script>`;
+// Buy Me a Coffee - Now handled by Support Banner in React, removed floating button
+// The support banner is integrated directly in the home page component
+const bmcButtonScript = `<style>.bmc-btn-container{display:none!important;}</style>`;
 
 const fontFace = `@font-face{font-family:'Ionicons';src:url('/ionicons.ttf') format('truetype');font-weight:normal;font-style:normal;font-display:block;}`;
 
