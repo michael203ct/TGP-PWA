@@ -4,13 +4,14 @@
 Convert "The Gig Pulse" PWA from Expo React Native to standard React for web deployment. Clone GitHub repository https://github.com/michael203ct/thegigpulse.git, keep FastAPI backend as-is, deploy for custom domain thegigpulse.com.
 
 ## Latest Update (Dec 2025)
-- ✅ **YouTube Shorts Filter** - All videos < 3 minutes filtered out
-- ✅ **Arena Page Fixed** - "Choose Your Arena" header no longer hidden
-- ✅ **Base + Tip = Total** - Backend auto-recalculates total when tip updated
-- ✅ **Admin Delete Posts** - Red trash icon allows admin to delete any post (password: mrn320)
-- ✅ **Fixed Trip Data** - Corrected existing trip where $19+$44.25 showed $62.25 → now $63.25
-- ✅ **Date/Time Stamp** - Shows "Sat, Feb 14 • 4:25 AM" on trip cards
-- ✅ **Referral Text** - Split into 2 lines with down arrow (↓)
+- ✅ **Arena Page Compact** - Smaller cards/icons, fits on one screen without scroll
+- ✅ **Driver Wins Layout Redesign**:
+  - Date/time moved to top right
+  - Username moved to bottom right
+  - Stats (mi, hr) aligned on right
+  - Less crowded left side
+- ✅ **Hidden Admin Mode** - 5 taps on "Driver Wins" header reveals trash icons
+- ✅ **Base + Tip = Total** - Backend auto-recalculates on update
 
 ## Previous Updates (Feb 14, 2026)
 - ✅ **The Arena** - New centerpiece feature with Live Pulse and Driver Wins
