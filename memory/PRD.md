@@ -3,7 +3,11 @@
 ## Original Problem Statement
 Convert "The Gig Pulse" PWA from Expo React Native to standard React for web deployment. Clone GitHub repository https://github.com/michael203ct/thegigpulse.git, keep FastAPI backend as-is, deploy for custom domain thegigpulse.com.
 
-## Latest Update (Feb 14, 2026)
+## Latest Update (Dec 2025)
+- ✅ **YouTube Shorts Filter** - All videos < 3 minutes now filtered out from content feed
+- ✅ **Duration Tracking** - Video durations exposed in API response for debugging
+
+## Previous Updates (Feb 14, 2026)
 - ✅ **The Arena** - New centerpiece feature with Live Pulse and Driver Wins
 - ✅ **Driver Wins** - Real-time trip sharing with fire 🔥 voting system
 - ✅ **Live Pulse** - Live streaming earnings tally with host mode for streamers
