@@ -2103,9 +2103,14 @@ async def update_driver_win(trip_id: str, update: DriverWinTripUpdate):
     update_dict = {k: v for k, v in update.dict().items() if v is not None and k != "session_id"}
     update_dict["updated_at"] = datetime.now(timezone.utc)
     
-    # Check if tip was updated
-    if "tip_amount" in update_dict or "total_amount" in update_dict:
+    # Check if tip was updated and recalculate total
+    if "tip_amount" in update_dict or "base_pay" in update_dict:
         update_dict["tip_updated"] = True
+        # Recalculate total from base + tip
+        new_base = update_dict.get("base_pay", existing.get("base_pay", 0)) or 0
+        new_tip = update_dict.get("tip_amount", existing.get("tip_amount", 0)) or 0
+        if new_base > 0 or new_tip > 0:
+            update_dict["total_amount"] = new_base + new_tip
     
     await db.driver_wins.update_one(
         {"id": trip_id},
@@ -2150,6 +2155,19 @@ async def delete_driver_win(trip_id: str, session_id: str):
     
     if existing.get("session_id") != session_id:
         raise HTTPException(status_code=403, detail="Not authorized to delete this trip")
+    
+    await db.driver_wins.delete_one({"id": trip_id})
+    return {"success": True}
+
+@arena_router.delete("/driver-wins/{trip_id}/admin")
+async def admin_delete_driver_win(trip_id: str, password: str):
+    """Admin delete a driver win trip"""
+    if password != "mrn320":
+        raise HTTPException(status_code=403, detail="Invalid admin password")
+    
+    existing = await db.driver_wins.find_one({"id": trip_id})
+    if not existing:
+        raise HTTPException(status_code=404, detail="Trip not found")
     
     await db.driver_wins.delete_one({"id": trip_id})
     return {"success": True}
