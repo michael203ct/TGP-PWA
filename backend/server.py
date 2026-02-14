@@ -2034,6 +2034,266 @@ async def update_community_favorites_price(item_id: str, price_update: PriceUpda
 
 app.include_router(static_content_router)
 
+# ============ Arena API Endpoints ============
+
+# Driver Wins endpoints
+@arena_router.get("/driver-wins")
+async def get_driver_wins(limit: int = 50):
+    """Get recent driver win trips (newest first)"""
+    trips = await db.driver_wins.find({}, {"_id": 0}).sort("created_at", -1).limit(limit).to_list(limit)
+    return {"success": True, "trips": trips}
+
+@arena_router.post("/driver-wins")
+async def create_driver_win(trip: DriverWinTripCreate):
+    """Create a new driver win trip"""
+    trip_dict = trip.dict()
+    trip_dict["id"] = str(uuid.uuid4())
+    trip_dict["fires"] = 1
+    trip_dict["fired_by"] = []
+    trip_dict["tip_updated"] = False
+    trip_dict["created_at"] = datetime.now(timezone.utc)
+    trip_dict["updated_at"] = None
+    
+    await db.driver_wins.insert_one(trip_dict)
+    # Remove _id before returning
+    trip_dict.pop("_id", None)
+    return {"success": True, "trip": trip_dict}
+
+@arena_router.put("/driver-wins/{trip_id}")
+async def update_driver_win(trip_id: str, update: DriverWinTripUpdate):
+    """Update a driver win trip (only owner can edit)"""
+    existing = await db.driver_wins.find_one({"id": trip_id})
+    if not existing:
+        raise HTTPException(status_code=404, detail="Trip not found")
+    
+    if existing.get("session_id") != update.session_id:
+        raise HTTPException(status_code=403, detail="Not authorized to edit this trip")
+    
+    update_dict = {k: v for k, v in update.dict().items() if v is not None and k != "session_id"}
+    update_dict["updated_at"] = datetime.now(timezone.utc)
+    
+    # Check if tip was updated
+    if "tip_amount" in update_dict or "total_amount" in update_dict:
+        update_dict["tip_updated"] = True
+    
+    await db.driver_wins.update_one(
+        {"id": trip_id},
+        {"$set": update_dict}
+    )
+    
+    updated = await db.driver_wins.find_one({"id": trip_id}, {"_id": 0})
+    return {"success": True, "trip": updated}
+
+@arena_router.post("/driver-wins/{trip_id}/fire")
+async def fire_driver_win(trip_id: str, device_id: str):
+    """Fire (upvote) a driver win trip"""
+    existing = await db.driver_wins.find_one({"id": trip_id})
+    if not existing:
+        raise HTTPException(status_code=404, detail="Trip not found")
+    
+    fired_by = existing.get("fired_by", [])
+    if device_id in fired_by:
+        # Already fired, remove fire
+        await db.driver_wins.update_one(
+            {"id": trip_id},
+            {"$pull": {"fired_by": device_id}, "$inc": {"fires": -1}}
+        )
+        action = "unfired"
+    else:
+        # Add fire
+        await db.driver_wins.update_one(
+            {"id": trip_id},
+            {"$push": {"fired_by": device_id}, "$inc": {"fires": 1}}
+        )
+        action = "fired"
+    
+    updated = await db.driver_wins.find_one({"id": trip_id}, {"_id": 0})
+    return {"success": True, "action": action, "fires": updated.get("fires", 1)}
+
+@arena_router.delete("/driver-wins/{trip_id}")
+async def delete_driver_win(trip_id: str, session_id: str):
+    """Delete a driver win trip (only owner can delete)"""
+    existing = await db.driver_wins.find_one({"id": trip_id})
+    if not existing:
+        raise HTTPException(status_code=404, detail="Trip not found")
+    
+    if existing.get("session_id") != session_id:
+        raise HTTPException(status_code=403, detail="Not authorized to delete this trip")
+    
+    await db.driver_wins.delete_one({"id": trip_id})
+    return {"success": True}
+
+# Live Pulse endpoints
+@arena_router.get("/live-pulse/sessions")
+async def get_live_pulse_sessions():
+    """Get all live pulse sessions (live now and upcoming)"""
+    now = datetime.now(timezone.utc)
+    
+    # Get live sessions
+    live = await db.live_pulse_sessions.find(
+        {"is_live": True}, 
+        {"_id": 0, "host_key": 0}
+    ).to_list(20)
+    
+    # Get upcoming sessions (not live, scheduled in future)
+    upcoming = await db.live_pulse_sessions.find(
+        {"is_live": False, "start_time": {"$gte": now}},
+        {"_id": 0, "host_key": 0}
+    ).sort("start_time", 1).to_list(20)
+    
+    return {"success": True, "live": live, "upcoming": upcoming}
+
+@arena_router.get("/live-pulse/sessions/{session_id}")
+async def get_live_pulse_session(session_id: str):
+    """Get a specific live pulse session details"""
+    session = await db.live_pulse_sessions.find_one({"id": session_id}, {"_id": 0, "host_key": 0})
+    if not session:
+        raise HTTPException(status_code=404, detail="Session not found")
+    return {"success": True, "session": session}
+
+@arena_router.post("/live-pulse/sessions")
+async def create_live_pulse_session(session: LivePulseSessionCreate):
+    """Create a new live pulse session"""
+    session_dict = session.dict()
+    session_dict["id"] = str(uuid.uuid4())
+    session_dict["host_key"] = str(uuid.uuid4())[:8]  # Short secret key
+    session_dict["is_live"] = False
+    session_dict["total_earnings"] = 0
+    session_dict["platform_breakdown"] = {}
+    session_dict["trip_count"] = 0
+    session_dict["created_at"] = datetime.now(timezone.utc)
+    session_dict["updated_at"] = None
+    
+    await db.live_pulse_sessions.insert_one(session_dict)
+    
+    # Return with host_key for the creator
+    session_dict.pop("_id", None)
+    return {"success": True, "session": session_dict}
+
+@arena_router.post("/live-pulse/sessions/{session_id}/go-live")
+async def go_live(session_id: str, host_key: str):
+    """Start a live session (host only)"""
+    session = await db.live_pulse_sessions.find_one({"id": session_id})
+    if not session:
+        raise HTTPException(status_code=404, detail="Session not found")
+    
+    if session.get("host_key") != host_key:
+        raise HTTPException(status_code=403, detail="Invalid host key")
+    
+    await db.live_pulse_sessions.update_one(
+        {"id": session_id},
+        {"$set": {"is_live": True, "start_time": datetime.now(timezone.utc)}}
+    )
+    return {"success": True}
+
+@arena_router.post("/live-pulse/sessions/{session_id}/end")
+async def end_live(session_id: str, host_key: str):
+    """End a live session (host only)"""
+    session = await db.live_pulse_sessions.find_one({"id": session_id})
+    if not session:
+        raise HTTPException(status_code=404, detail="Session not found")
+    
+    if session.get("host_key") != host_key:
+        raise HTTPException(status_code=403, detail="Invalid host key")
+    
+    await db.live_pulse_sessions.update_one(
+        {"id": session_id},
+        {"$set": {"is_live": False, "end_time": datetime.now(timezone.utc)}}
+    )
+    return {"success": True}
+
+@arena_router.post("/live-pulse/sessions/{session_id}/add-trip")
+async def add_live_trip(session_id: str, trip: LivePulseTripAdd):
+    """Add a trip to a live session (host only)"""
+    session = await db.live_pulse_sessions.find_one({"id": session_id})
+    if not session:
+        raise HTTPException(status_code=404, detail="Session not found")
+    
+    if session.get("host_key") != trip.host_key:
+        raise HTTPException(status_code=403, detail="Invalid host key")
+    
+    # Update totals
+    platform = trip.platform.lower()
+    current_breakdown = session.get("platform_breakdown", {})
+    current_breakdown[platform] = current_breakdown.get(platform, 0) + trip.amount
+    
+    await db.live_pulse_sessions.update_one(
+        {"id": session_id},
+        {
+            "$inc": {"total_earnings": trip.amount, "trip_count": 1},
+            "$set": {
+                "platform_breakdown": current_breakdown,
+                "updated_at": datetime.now(timezone.utc)
+            }
+        }
+    )
+    
+    # Also log the individual trip
+    trip_log = {
+        "id": str(uuid.uuid4()),
+        "session_id": session_id,
+        "platform": platform,
+        "amount": trip.amount,
+        "base_pay": trip.base_pay,
+        "tip_amount": trip.tip_amount,
+        "note": trip.note,
+        "created_at": datetime.now(timezone.utc)
+    }
+    await db.live_pulse_trips.insert_one(trip_log)
+    
+    updated = await db.live_pulse_sessions.find_one({"id": session_id}, {"_id": 0, "host_key": 0})
+    return {"success": True, "session": updated}
+
+# Host mode - verify host key
+@arena_router.get("/live-pulse/host/{session_id}")
+async def verify_host(session_id: str, key: str):
+    """Verify host key for host mode access"""
+    session = await db.live_pulse_sessions.find_one({"id": session_id})
+    if not session:
+        raise HTTPException(status_code=404, detail="Session not found")
+    
+    if session.get("host_key") != key:
+        raise HTTPException(status_code=403, detail="Invalid host key")
+    
+    # Return full session with host_key for host
+    session.pop("_id", None)
+    return {"success": True, "session": session, "is_host": True}
+
+# Competitions endpoints
+@arena_router.get("/competitions")
+async def get_competitions(status: Optional[str] = None):
+    """Get competitions"""
+    query = {}
+    if status:
+        query["status"] = status
+    
+    competitions = await db.competitions.find(query, {"_id": 0}).sort("scheduled_time", 1).to_list(50)
+    return {"success": True, "competitions": competitions}
+
+@arena_router.post("/competitions")
+async def create_competition(comp: CompetitionCreate):
+    """Create a new competition (pending approval)"""
+    comp_dict = comp.dict()
+    comp_dict["id"] = str(uuid.uuid4())
+    comp_dict["status"] = "pending"
+    comp_dict["participants"] = []
+    comp_dict["created_at"] = datetime.now(timezone.utc)
+    
+    await db.competitions.insert_one(comp_dict)
+    comp_dict.pop("_id", None)
+    return {"success": True, "competition": comp_dict}
+
+@arena_router.post("/competitions/{comp_id}/approve")
+async def approve_competition(comp_id: str):
+    """Approve a competition (admin only)"""
+    await db.competitions.update_one(
+        {"id": comp_id},
+        {"$set": {"status": "approved"}}
+    )
+    return {"success": True}
+
+app.include_router(arena_router)
+
 @app.on_event("startup")
 async def startup_db_client():
     # Create indexes for better query performance
