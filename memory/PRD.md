@@ -5,12 +5,12 @@ Convert "The Gig Pulse" PWA from Expo React Native to standard React for web dep
 
 ## Latest Update (Dec 2025)
 - ✅ **YouTube Shorts Filter** - All videos < 3 minutes filtered out
-- ✅ **Arena Tab Label Fixed** - "Arena" text now visible in footer
-- ✅ **Header Padding Fixed** - Live Pulse/Driver Wins headers not cropped
-- ✅ **Driver Wins Date Stamp** - Full date/time shown: "Sat, Feb 14 • 4:25 AM"
-- ✅ **Referral Text Layout** - Split into 2 lines with down arrow (↓)
-- ✅ **Support Banner Global** - Visible on all tab pages
-- ✅ **Auto-Calculate Total** - Base Pay + Tip = Total (auto-updates in form)
+- ✅ **Arena Page Fixed** - "Choose Your Arena" header no longer hidden
+- ✅ **Base + Tip = Total** - Backend auto-recalculates total when tip updated
+- ✅ **Admin Delete Posts** - Red trash icon allows admin to delete any post (password: mrn320)
+- ✅ **Fixed Trip Data** - Corrected existing trip where $19+$44.25 showed $62.25 → now $63.25
+- ✅ **Date/Time Stamp** - Shows "Sat, Feb 14 • 4:25 AM" on trip cards
+- ✅ **Referral Text** - Split into 2 lines with down arrow (↓)
 
 ## Previous Updates (Feb 14, 2026)
 - ✅ **The Arena** - New centerpiece feature with Live Pulse and Driver Wins
