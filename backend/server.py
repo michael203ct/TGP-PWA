@@ -730,7 +730,7 @@ def matches_gig_keywords(title: str, description: str) -> bool:
     return any(keyword in text for keyword in GIG_KEYWORDS)
 
 async def get_video_statistics(video_ids: list) -> dict:
-    """Helper function to fetch detailed statistics for videos"""
+    """Helper function to fetch detailed statistics and duration for videos"""
     try:
         api_key = os.environ.get("YOUTUBE_API_KEY", "")
         if not api_key:
@@ -738,7 +738,7 @@ async def get_video_statistics(video_ids: list) -> dict:
             
         url = "https://www.googleapis.com/youtube/v3/videos"
         params = {
-            "part": "statistics",
+            "part": "statistics,contentDetails",
             "id": ",".join(video_ids),
             "key": api_key
         }
@@ -748,7 +748,11 @@ async def get_video_statistics(video_ids: list) -> dict:
                 data = await response.json()
                 stats = {}
                 for item in data.get("items", []):
-                    stats[item["id"]] = item["statistics"]
+                    video_data = item.get("statistics", {})
+                    # Add duration from contentDetails
+                    content_details = item.get("contentDetails", {})
+                    video_data["duration"] = content_details.get("duration", "")
+                    stats[item["id"]] = video_data
                 return stats
     except Exception:
         return {}
