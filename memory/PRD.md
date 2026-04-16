@@ -3,7 +3,14 @@
 ## Original Problem Statement
 Convert "The Gig Pulse" PWA from Expo React Native to standard React for web deployment.
 
-## Latest Update (Apr 13, 2026 - Logo Replacement Complete)
+## Latest Update (Apr 16, 2026 - Arena Removed, Clean Site)
+- **Arena features archived** (Live Pulse, Driver Wins, Earnings Tracker removed from home page and tab nav)
+- Code files preserved for future re-addition
+- Support banner: "keeps site running"
+- Site now focuses on: Content, News, Essentials, Apps
+- Future consideration: standalone offer calculator / earnings tracker
+
+## Previous Update (Apr 13, 2026 - Logo + Accent Color)
 - **PWA Header Logo Fixed**: Replaced `/app/temp_repo/frontend/assets/logo-full.png` with new car+pulse logo
 - Removed `tintColor` from `Logo.tsx` so full-color logo renders properly
 - Adjusted dimensions to square aspect ratio for the new logo
